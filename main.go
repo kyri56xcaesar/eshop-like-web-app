@@ -9,6 +9,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -19,7 +20,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello world")
+	fmt.Print("Welcome.\n")
 
 	godotenv.Load(".env")
 
@@ -41,6 +42,18 @@ func main() {
 	v1Router := chi.NewRouter()
 	v1Router.Get("/healthz", handlerReadiness)
 	v1Router.Get("/err", handlerErr)
+	v1Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Printf("URL request: %s\n", r.URL)
+		if r.Method == "GET" {
+			t, err := template.ParseFiles("templates/index.html")
+			if err != nil {
+				log.Fatal(err)
+			}
+			t.Execute(w, nil)
+		} else {
+			respondWithError(w, 400, "Something went wrong")
+		}
+	})
 
 	router.Mount("/v1", v1Router)
 
@@ -55,20 +68,3 @@ func main() {
 	}
 
 }
-
-// Reverse reverses a string left to right
-// Notice that we need to capitalize the first letter
-// of the function
-
-// If we don't then we won't be able to access this
-// function outside of the mystrings package
-
-func Reverse(s string) string {
-	result := ""
-	for _, v := range s {
-		result = string(v) + result
-	}
-	return result
-}
-
-// Uppercase name functions are exported
