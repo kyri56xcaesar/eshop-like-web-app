@@ -3,7 +3,6 @@ html {
     display: grid;
 }
 
-
 #header {
     color:rgb(26, 32, 32); 
 }
@@ -31,32 +30,39 @@ html {
 
 }
 
+
+.login-register-form {
+
+    top: 150px;
+    width: 25%;
+    height: 50%;
+    margin:auto;
+
+    position: relative;
+ 
+}
+
+
 #login-form {
+
+    width: 50%;
+    /* height: 50%; */
+    margin: auto;
     display: none;
 }
 
 #register-form {
-    display: none;
-}
+    width: 50%;
+    margin: auto;
+    display: none;}
 
 
-
-
-
-
-.login-register-form {
-    left: 45%;
-    top: 30%;
-
-    position: absolute;
-
-
-    
-}
 
 #register-tag {
     width: 70px;
-    border: solid 4px #E5E5E5;
+    border-bottom: solid 4px #E5E5E5;
+    border-right: solid 4px #E5E5E5;
+    border-radius: 8px;
     margin-left: 10px;
     margin-bottom: 15px;
     padding: 5px;
@@ -66,6 +72,14 @@ html {
     padding-right: 80px;
     
     font-size: 20px;
+}
+
+#register-tag:hover {
+    border-bottom: none;
+    border-right: none;
+    border-top: solid 4px #E5E5E5;
+    border-left: solid 4px #E5E5E5;
+    
 }
 
 input {
