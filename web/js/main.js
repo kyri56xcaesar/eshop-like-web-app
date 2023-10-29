@@ -12,9 +12,13 @@ function Login_Style() {
 
     const getLoginForm = document.getElementById("login-form");
     const getRegisterForm = document.getElementById("register-form");
-    
+    const getLoginRegisterDiv = document.getElementById("login-register-form");
+
+    getLoginRegisterDiv.style.display = "block";
+
     getLoginForm.style.display = "block";
     getRegisterForm.style.display = "none";
+
 
 
 
@@ -23,7 +27,28 @@ function Login_Style() {
 function Register_Style() {
     const getLoginForm = document.getElementById("login-form");
     const getRegisterForm = document.getElementById("register-form");
+    const getLoginRegisterDiv = document.getElementById("login-register-form");
 
+    getLoginRegisterDiv.style.display = "block";
     getLoginForm.style.display = "none";
     getRegisterForm.style.display = "block";
+
+
+    // resetForm(getRegisterForm);
+
+
 }
+
+function Home_Style() {
+    const getLoginForm = document.getElementById("login-form");
+    const getRegisterForm = document.getElementById("register-form");
+    const getLoginRegisterDiv = document.getElementById("login-register-form");
+
+    getLoginRegisterDiv.style.display = "none";
+    getLoginForm.style.display = "none";
+    getRegisterForm.style.display = "none";
+
+
+
+}
+
