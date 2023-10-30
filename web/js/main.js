@@ -1,11 +1,3 @@
-const getLoginSelect = document.getElementById("login-select");
-const getRegisterSelect = document.getElementById("register-select");
-
-const getLoginPassword = document.getElementById("login-password");
-const getRegisterUsername = document.getElementById("register-username");
-const getRegisterPassword = document.getElementById("register-password");
-const getRegisterEmail = document.getElementById("register-email");
-
 
 
 function Login_Style() {
@@ -32,6 +24,13 @@ function Register_Style() {
     getLoginRegisterDiv.style.display = "block";
     getLoginForm.style.display = "none";
     getRegisterForm.style.display = "block";
+
+
+    const getRegisterUsername = document.getElementById("register-username");
+    getRegisterUsername.value = "";
+
+    const getRegisterPassword = document.getElementById("register-password");
+    getRegisterPassword.setAttribute("placeholder", "Κωδικός");
 
 
     // resetForm(getRegisterForm);

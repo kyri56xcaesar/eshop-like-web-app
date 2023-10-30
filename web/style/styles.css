@@ -154,20 +154,20 @@ span {
     position: inherit;
     text-align: center;
     /* border: 1px solid #030303;
-    border-radius: 50px;
-     */
+    border-radius: 50px; */
     
-    padding-top: 40px;
+    
+    padding-top: 0px;
     padding-bottom: 40px;
-    margin-top: 0px;
-    margin-bottom: 300px;
+    margin-top: 10px;
+    margin-bottom: 250px;
 
     display: none;
 
     font-size: 30px;
 
     width: 1200px;
-    height: 700px;
+    height: 300px;
     
 
 }
@@ -178,6 +178,10 @@ form {
     text-align: center;
     flex-direction: row;
     vertical-align: top;
+}
+
+form > p {
+    user-select: none;
 }
 
 
@@ -214,7 +218,7 @@ input::placeholder{
     text-align: center;
 }
 
-input#submit-button {
+input#submit-login-button, input#submit-register-button {
     width: 150px;
     height: 45px;
     padding: 9px 15px;
@@ -229,7 +233,7 @@ input#submit-button {
     
 }
 
-input#submit-button:hover {
+input#submit-login-button:hover, input#submit-register-button:hover {
     box-shadow: 5px 5px 15px 5px #47454538;
     color: rgb(80, 59, 80);
 }
