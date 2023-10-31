@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	fileServer := http.FileServer(http.Dir("../templates/"))
+	fileServer := http.FileServer(http.Dir("../web/"))
 	http.Handle("/", fileServer)
 	http.HandleFunc("/hello", helloHandler)
 

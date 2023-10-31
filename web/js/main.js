@@ -1,5 +1,4 @@
 
-
 function Login_Style() {
 
     const getLoginForm = document.getElementById("login-form");
@@ -11,8 +10,7 @@ function Login_Style() {
     getLoginForm.style.display = "block";
     getRegisterForm.style.display = "none";
 
-
-
+    
 
 }
 
@@ -48,6 +46,47 @@ function Home_Style() {
     getRegisterForm.style.display = "none";
 
 
+    // const getLoginRegisterOptions = document.getElementById("login-register-options");
+    
+    // getLoginRegisterOptions.style.display = "none";
 
 }
 
+
+ 
+function menu_function(x) {
+    x.classList.toggle("change")
+
+    sidebar.classList.toggle("close");
+
+    const getLeftHeaders = document.getElementById("left-headers");
+
+    getLeftHeaders.classList.toggle("start");
+
+}
+
+
+
+const sidebar = document.querySelector(".sidebar");
+const menu = document.querySelector(".menu-content");
+const menuItems = document.querySelectorAll(".submenu-item");
+const subMenuTitles = document.querySelectorAll(".submenu .menu-title");
+
+
+menuItems.forEach((item, index) => {
+  item.addEventListener("click", () => {
+    menu.classList.add("submenu-active");
+    item.classList.add("show-submenu");
+    menuItems.forEach((item2, index2) => {
+      if (index !== index2) {
+        item2.classList.remove("show-submenu");
+      }
+    });
+  });
+});
+
+subMenuTitles.forEach((title) => {
+  title.addEventListener("click", () => {
+    menu.classList.remove("submenu-active");
+  });
+});

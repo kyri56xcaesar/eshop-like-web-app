@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eshop</title>
     <link rel="stylesheet" href="style/styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+
 </head>
 <body>
 
@@ -12,20 +14,153 @@
         
         <div class="upper-div">
             <div id="header-selectors">
+
+                <div id="left-space">
+
+                </div>
                 
-                <div id="left-headers">  
+                <div id="left-headers"> 
+
+                    <div class="navbar" id="sidebar-close" onclick="menu_function(this)">
+
+                        <div class="bar1"></div>
+                        <div class="bar2"></div>
+                        <div class="bar3"></div>
+                    </div>
+                    
                     <span class="option-select" onclick="Home_Style()">Home</span>
+                </div>
+
+                <div id="main-title">
+                    <h1>E-SHOP</h1>
                 </div>
 
                 <div id="right-headers">
                     <span class="option-select" onclick="Login_Style()">Login</span>
                     <span class="option-select" onclick="Register_Style()">Register</span>
-                    <script src="js/main.js"></script>
                 </div>
             </div>
         </div>
 
     </header>
+
+    <nav class="sidebar">
+
+      
+        <a href="#" class="logo">$DADS</a>
+        <hr>
+        <div class="menu-content">
+          <ul class="menu-items">
+            <div class="menu-title">Your menu title</div>
+            <li class="item">
+              <a href="#">Your first link</a>
+            </li>
+            <li class="item">
+              <div class="submenu-item">
+                <span>First submenu</span>
+                <i class="fa-solid fa-chevron-right"></i>
+              </div>
+              <ul class="menu-items submenu">
+                <div class="menu-title">
+                  <i class="fa-solid fa-chevron-left"></i>
+                  Your submenu title
+                </div>
+                <li class="item">
+                  <a href="#">First sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">First sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">First sublink</a>
+                </li>
+              </ul>
+            </li>
+            <li class="item">
+              <div class="submenu-item">
+                <span>Second submenu</span>
+                <i class="fa-solid fa-chevron-right"></i>
+              </div>
+              <ul class="menu-items submenu">
+                <div class="menu-title">
+                  <i class="fa-solid fa-chevron-left"></i>
+                  Your submenu title
+                </div>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+              </ul>
+            </li>
+            <li class="item">
+              <a href="#">Your second link</a>
+            </li>
+            <li class="item">
+              <a href="#">Your third link</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
 
     <main role="main">
 
@@ -72,6 +207,7 @@
             </div>
         </div>
     </footer>
-    
+    <script src="js/main.js"></script>
+
 </body>
 </html>
