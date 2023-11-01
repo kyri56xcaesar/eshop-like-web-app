@@ -9,28 +9,53 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 )
 
+// FileServer conveniently sets up a http.FileServer handler to serve
+// static files from a http.FileSystem.
+func FileServer(r chi.Router, path string, root http.FileSystem) {
+	if strings.ContainsAny(path, "{}*") {
+		panic("File Server does not permit any URL parameters.")
+	}
+
+	if path != "/" && path[len(path)-1] != '/' {
+		r.Get(path, http.RedirectHandler(path+"/", 301).ServeHTTP)
+		path += "/"
+	}
+	path += "*"
+
+	r.Get(path, func(w http.ResponseWriter, r *http.Request) {
+		rctx := chi.RouteContext(r.Context())
+		pathPrefix := strings.TrimSuffix(rctx.RoutePattern(), "/*")
+		fs := http.StripPrefix(pathPrefix, http.FileServer(root))
+		fs.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	fmt.Print("Welcome.\n")
 
+	//Load environment variables
 	godotenv.Load(".env")
 
+	// Get environment variables.
 	portString := os.Getenv("PORT")
 	if portString == "" {
 		log.Fatal("PORT is not found in the environment")
 	}
 
+	// Create a router
 	router := chi.NewRouter()
 
+	// Insert cors options.
 	router.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"https://*", "http://*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
@@ -39,28 +64,37 @@ func main() {
 		MaxAge:           300,
 	}))
 
+	// Subrouter (for version control)
 	v1Router := chi.NewRouter()
+
+	// Setup FileServer for the static files.
+	filesDir := http.Dir("./web/static")
+	FileServer(v1Router, "/static", filesDir)
+
+	// Setup routes.
 	v1Router.Get("/healthz", handlerReadiness)
 	v1Router.Get("/err", handlerErr)
 	v1Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Printf("URL request: %s\n", r.URL)
-		if r.Method == "GET" {
-			t, err := template.ParseFiles("templates/index.html")
-			if err != nil {
-				log.Fatal(err)
-			}
-			t.Execute(w, nil)
-		} else {
-			respondWithError(w, 400, "Something went wrong")
+
+		fmt.Printf("Request arrived.%v\n", r.URL.Path)
+		if r.Method == http.MethodGet {
+
+			// Serve the HTML form
+			http.ServeFile(w, r, "web/index.html")
+
 		}
 	})
 
+	// Mount subrouter to the main router
 	router.Mount("/v1", v1Router)
 
+	// Setup the server
 	srv := &http.Server{
 		Handler: router,
 		Addr:    ":" + portString,
 	}
+
+	// Launch Server.
 	log.Printf("Server starting on port %v", portString)
 	err := srv.ListenAndServe()
 	if err != nil {
