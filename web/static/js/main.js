@@ -5,7 +5,7 @@ function Login() {
     console.log(getUsernameLogin.value);
     console.log(getPasswordLogin.value);
 
-    alert(`Recieved: ${getUsernameLogin.value} and ${getPasswordLogin.value}`)
+    //alert(`Recieved: ${getUsernameLogin.value} and ${getPasswordLogin.value}`)
 }   
 
 function Register() {
