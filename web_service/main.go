@@ -74,15 +74,44 @@ func main() {
 	// Setup routes.
 	v1Router.Get("/healthz", handlerReadiness)
 	v1Router.Get("/err", handlerErr)
-	v1Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 
-		fmt.Printf("Request arrived.%v\n", r.URL.Path)
+	v1Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Printf("\nMethod type: %v\n", r.Method)
+
 		if r.Method == http.MethodGet {
 
 			// Serve the HTML form
 			http.ServeFile(w, r, "web/index.html")
 
 		}
+
+	})
+
+	v1Router.Post("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Printf("\nMethod type: %v\n", r.Method)
+
+		err := r.ParseForm()
+
+		if err != nil {
+			http.Error(w, "Failed to parse form", http.StatusBadRequest)
+			return
+		}
+
+		// Retrieve and process the form data
+		// username := r.FormValue("username")
+		// password := r.FormValue("password")
+		// fmt.Printf("Username: %v\nPassword: %v\n\n\n", username, password)
+
+		for key, value := range r.Form {
+			fmt.Printf("%s = %s\n", key, value)
+		}
+
+		// Validate user credintials and redirect accordingly.
+		// Perhaps use html/template to form the ServedFile
+
+		// Send request to other service
+
+		http.ServeFile(w, r, "web/index.html")
 	})
 
 	// Mount subrouter to the main router

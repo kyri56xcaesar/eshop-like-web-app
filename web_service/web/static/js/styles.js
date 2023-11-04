@@ -10,6 +10,9 @@ function Login_Style() {
     getLoginForm.style.display = "block";
     getRegisterForm.style.display = "none";
 
+    const getRegisterSideLabels = document.getElementById("side-labels");
+    getRegisterSideLabels.style.display = "none";
+
     
 
 }
@@ -22,6 +25,9 @@ function Register_Style() {
     getLoginRegisterDiv.style.display = "block";
     getLoginForm.style.display = "none";
     getRegisterForm.style.display = "block";
+
+    const getRegisterSideLabels = document.getElementById("side-labels");
+    getRegisterSideLabels.style.display = "grid";
 
 
     const getRegisterUsername = document.getElementById("register-username");

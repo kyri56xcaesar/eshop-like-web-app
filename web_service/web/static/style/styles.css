@@ -64,6 +64,8 @@ span {
 }
 
 
+/* Header styles */
+
 #header-selectors {
 
 
@@ -115,10 +117,18 @@ span {
 
 }
 
+#header-selectors span:hover {
+  color: magenta;
+  cursor: pointer;
+
+}
+
 #left-space {
     /* width: 22%; */
     display: none;
 }
+
+
 
 #left-headers {
     width: 45%;
@@ -130,8 +140,6 @@ span {
     
 }
 
-
-
 #right-headers {
     width: 50%;
     display: flex;
@@ -139,11 +147,7 @@ span {
     align-items: center;
 }
 
-#header-selectors span:hover {
-    color: magenta;
-    cursor: pointer;
 
-}
 
 
 #main-title {
@@ -153,18 +157,21 @@ span {
 
     user-select: none;
 
-    margin-left: 100px;
+    margin-left: 50px;
 
-    padding-bottom: 25px;
 
     height: 100px;
     width: 300px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
 }
 
 #main-title h1 {
     font-size: 60px;
-    padding-top: 30px;
+    padding-top: 10px;
 }
 
 .option-select{
@@ -189,7 +196,7 @@ span {
 
 
 
-
+/* Form styles */
 
 
 
@@ -211,7 +218,7 @@ span {
 
     font-size: 30px;
 
-    width: 400px;
+    width: 500px;
     height: 300px;
     
 
@@ -219,21 +226,30 @@ span {
 
 .register-form {
   
-  display: grid;
+  display: flex;
+  flex-direction: row;
 
+}
+
+#side-labels {
+  display: grid;
+  margin-top: 80px;
+  margin-bottom: 90px;
+
+  visibility: hidden;
+  
+}
+
+.register-form label {
+  font-size: 15px;
+  margin-left: 31px;
 }
 
 #register-tag {
     margin-bottom: 20px;
 }
 
-form {
-    display: flex;
-    justify-content: top;
-    text-align: center;
-    flex-direction: row;
-    vertical-align: top;
-}
+
 
 form > p {
     user-select: none;
@@ -296,6 +312,9 @@ input#submit-login-button:hover, input#submit-register-button:hover {
 
 
 
+
+
+/* Menu bar control */
 
 .navbar {
     display: inline-block;
@@ -367,7 +386,7 @@ input#submit-login-button:hover, input#submit-register-button:hover {
 
 
 
-
+/* Side Menu style */
 
 
   /* Import Google font - Poppins */
