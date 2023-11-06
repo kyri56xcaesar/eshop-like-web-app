@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -19,6 +20,8 @@ func main() {
 		log.Fatal("PORT is not found in the environment")
 	}
 
-	fmt.Printf("PORT: %v\n", portString)
+	fmt.Printf("Listening on PORT =: %v\n", portString)
+
+	log.Fatal(http.ListenAndServe(portString, nil))
 
 }
