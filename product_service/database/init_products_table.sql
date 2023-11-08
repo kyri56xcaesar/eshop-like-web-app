@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS products {
+CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
     title VARCHAR(64),
     img VARCHAR,
@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS products {
     quantity INT,
     seller_name VARCHAR(64)
 
-}
+)
