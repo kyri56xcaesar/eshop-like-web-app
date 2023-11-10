@@ -50,7 +50,7 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Print("--> Successfully connected to the Database!\n\n")
+	fmt.Print("--> Successfully connected to the Database.\n\n")
 
 	// _, err = db.Query("INSERT INTO products VALUES (1, 'a title', 'img_link', 74.3, 5, 'JonDo');")
 	// if err != nil {
