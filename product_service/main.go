@@ -3,12 +3,22 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
+
+type Product struct {
+	id          int
+	title       string
+	img         string
+	price       float64
+	quantity    int
+	seller_name string
+}
 
 func main() {
 	fmt.Print("Welcome to the Product Service.\n")
@@ -41,6 +51,33 @@ func main() {
 	}
 
 	fmt.Print("--> Successfully connected to the Database!\n\n")
+
+	// _, err = db.Query("INSERT INTO products VALUES (1, 'a title', 'img_link', 74.3, 5, 'JonDo');")
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	rows, err := db.Query("SELECT * FROM products;")
+	if err != nil {
+		panic(err)
+	}
+
+	results := []Product{}
+
+	for rows.Next() {
+		product := Product{}
+		err = rows.Scan(&product.id, &product.title, &product.img, &product.price, &product.quantity, &product.seller_name)
+		if err != nil {
+			log.Print(err)
+		}
+
+		results = append(results, product)
+
+	}
+
+	fmt.Println(results)
+
+	rows.Close()
 
 	// Setup service
 
