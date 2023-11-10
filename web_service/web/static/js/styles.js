@@ -37,9 +37,6 @@ function Register_Style() {
     getRegisterPassword.setAttribute("placeholder", "Κωδικός");
 
 
-    // resetForm(getRegisterForm);
-
-
 }
 
 function Home_Style() {
