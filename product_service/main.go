@@ -18,6 +18,7 @@ type Product struct {
 	price       float64
 	quantity    int
 	seller_name string
+	status      string
 }
 
 func main() {
