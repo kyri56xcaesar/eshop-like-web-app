@@ -11,16 +11,17 @@ async function Register(e) {
         let headersList = {
             "Accept": "*/*",
             "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
-
-            let bodyContent = "username=test&password=test&client_id=client-front&client_secret=FovwjKxMhL4YSjOftIXavlDzkcAqX9Dr&grant_type=password";
-
-            let response = await fetch("http://localhost:8080/auth/realms/eshop_project/protocol/openid-connect/token", { 
-              method: "POST",
-              body: bodyContent,
-              headers: headersList
-            });
+            "Content-Type": "application/x-www-form-urlencoded"
+           }
+           
+           let bodyContent = "client_secret=HkQiIZCJEC3hSvGoLeTMDGModjWwEfxY&grant_type=client_credentials&client_id=admin-cli";
+           
+           let response = await fetch("http://localhost:8080/auth/realms/master/protocol/openid-connect/token", { 
+             method: "POST",
+             body: bodyContent,
+             headers: headersList
+           });
+           
 
             const adminAccessToken = await response.json();
             console.log(adminAccessToken);     
@@ -28,14 +29,14 @@ async function Register(e) {
             if(response.ok) {
                 const token = adminAccessToken.access_token;
 
-                let headersList = {
+                let headersList2 = {
                     "Accept": "*/*",
                     "User-Agent": "Thunder Client (https://www.thunderclient.com)",
                     "Authorization": "Bearer "+token,
                     "Content-Type": "application/json"
                    }
                    
-                   let bodyContent = JSON.stringify({
+                   let bodyContent2 = JSON.stringify({
                        "email": getEmail, 
                        "enabled":"true", 
                        "username":getUsername,
@@ -46,17 +47,17 @@ async function Register(e) {
                        "credentials":[{"type":"password","value":getPassword,"temporary":false}]
                    });
                    
-                   let response = await fetch("http://localhost:8080/auth/admin/realms/eshop_project/users", { 
+                   let response2 = await fetch("http://localhost:8080/auth/admin/realms/eshop_project/users", { 
                      method: "POST",
-                     body: bodyContent,
-                     headers: headersList
+                     body: bodyContent2,
+                     headers: headersList2
                    });
                    
-                   let data = await response.text();
+                   let data = await response2.text();
                    console.log(data);
 
 
-                   if(response.ok) {
+                   if(response2.ok) {
                         alert('register user is ok');
 
                         setTimeout(()=> {
@@ -79,7 +80,56 @@ async function Register(e) {
     return false;
 }
 
-async function Login() {
+async function Login(e) {
+
+    e.preventDefault();
+    const getUsernameLogin = document.getElementById("login-username").value;
+    const getPasswordLogin = document.getElementById("login-password").value;
+
+    try {
+        let headersList = {
+            "Accept": "*/*",
+            "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+            "Content-Type": "application/x-www-form-urlencoded"
+           }
+           
+        console.log(getUsernameLogin);
+        console.log(getPasswordLogin);
+        let bodyContent = "username="+getUsernameLogin+"&password="+getPasswordLogin+"&client_id=client-front&client_secret=FovwjKxMhL4YSjOftIXavlDzkcAqX9Dr&grant_type=password";
+        
+        let response = await fetch("http://localhost:8080/auth/realms/eshop_project/protocol/openid-connect/token", { 
+          method: "POST",
+          body: bodyContent,
+          headers: headersList
+        });
+        
+
+        
+        if(response.ok) {
+            console.log("gsag");
+            const login = await response.json();
+            const token = login.access_token;
+
+            const decodeToken = await decodeJwt(token);
+            console.log(decodeToken);
+
+
+            // Local Storage or Cookies Create.
+            localStorage.setItem("username", decodeToken.preferred_username);
+            //localStorage.setItem("password", )
+            localStorage.setItem("email", decodeToken.email)
+
+        }else {
+            const err = await response.json();
+            console.log(err);
+        }
+
+
+    } catch (error) {
+        console.log(error);
+    }
+
+    return false;
 
 }
 
