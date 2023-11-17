@@ -100,10 +100,23 @@ func main() {
 		// Retrieve and process the form data
 		// username := r.FormValue("username")
 		// password := r.FormValue("password")
-		// fmt.Printf("Username: %v\nPassword: %v\n\n\n", username, password)
-
 		for key, value := range r.Form {
 			fmt.Printf("%s = %s\n", key, value)
+			fmt.Printf("value type: %T\n", value)
+		}
+
+		switch len(r.Form) {
+		case 2:
+			// Login form request
+
+			// Filter characters, respond accordingly
+		case 5:
+			// Register form request
+
+			// Filter characters, respond accordingly
+		default:
+			http.Error(w, "Status Not allowed", http.StatusMethodNotAllowed)
+
 		}
 
 		// Validate user credintials and redirect accordingly.
@@ -112,6 +125,7 @@ func main() {
 		// Send request to other service
 
 		http.ServeFile(w, r, "web/index.html")
+
 	})
 
 	// Mount subrouter to the main router

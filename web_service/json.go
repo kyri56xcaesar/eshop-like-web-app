@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -30,4 +31,17 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(code)
 	w.Write(dat)
+}
+
+// function to format JSON data
+func formatJSON(data []byte) (string, error) {
+	var out bytes.Buffer
+	err := json.Indent(&out, data, "", " ")
+
+	if err != nil {
+		return "", err
+	}
+
+	d := out.Bytes()
+	return string(d), nil
 }
