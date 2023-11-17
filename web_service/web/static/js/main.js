@@ -118,6 +118,7 @@ async function Login(e) {
             localStorage.setItem("username", decodeToken.preferred_username);
             //localStorage.setItem("password", )
             localStorage.setItem("email", decodeToken.email)
+            // localStorage.setItem("role", decodeToken)
 
         }else {
             const err = await response.json();
