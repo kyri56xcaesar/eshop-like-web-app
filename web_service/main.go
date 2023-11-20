@@ -71,11 +71,16 @@ func main() {
 	filesDir := http.Dir("./web/static")
 	FileServer(v1Router, "/static", filesDir)
 
+	// Initialize Client
+	createClient()
+
 	// Setup routes.
 	v1Router.Get("/healthz", handlerReadiness)
 	v1Router.Get("/err", handlerErr)
 
 	v1Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+
+		fmt.Print("\n------------------------------------\n")
 		fmt.Printf("\nMethod type: %v\n", r.Method)
 
 		if r.Method == http.MethodGet {
@@ -88,6 +93,7 @@ func main() {
 	})
 
 	v1Router.Post("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Print("\n------------------------------------\n")
 		fmt.Printf("\nMethod type: %v\n", r.Method)
 
 		err := r.ParseForm()
@@ -98,17 +104,23 @@ func main() {
 		}
 
 		// Retrieve and process the form data
-		// username := r.FormValue("username")
-		// password := r.FormValue("password")
-		for key, value := range r.Form {
-			fmt.Printf("%s = %s\n", key, value)
-			fmt.Printf("value type: %T\n", value)
-		}
+
+		// fmt.Printf("Username: %s\nPassword: %s\n", username, password)
+
+		// for key, value := range r.Form {
+		// 	fmt.Printf("%s = %s\n", key, value)
+		// }
 
 		switch len(r.Form) {
 		case 2:
 			// Login form request
+			username := r.FormValue("login-username")
+			password := r.FormValue("login-password")
+			err := sendLoginUserRequest(username, password)
 
+			if err != nil {
+				fmt.Printf("%v", err)
+			}
 			// Filter characters, respond accordingly
 		case 5:
 			// Register form request
