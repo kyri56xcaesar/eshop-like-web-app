@@ -96,6 +96,8 @@ func main() {
 		fmt.Print("\n------------------------------------\n")
 		fmt.Printf("\nMethod type: %v\n", r.Method)
 
+		//fmt.Print(r)
+
 		err := r.ParseForm()
 
 		if err != nil {
@@ -116,16 +118,34 @@ func main() {
 			// Login form request
 			username := r.FormValue("login-username")
 			password := r.FormValue("login-password")
-			err := sendLoginUserRequest(username, password)
+
+			// Filter characters
+
+			// Send Login Request
+			err := LoginRequest(username, password)
 
 			if err != nil {
 				fmt.Printf("%v", err)
 			}
-			// Filter characters, respond accordingly
+			// If logged in, respond accordingly
 		case 5:
 			// Register form request
+			username := r.FormValue("register-username")
+			password := r.FormValue("register-password")
+			//password_r := r.FormValue("register-password-repeat")
+			email := r.FormValue("register-email")
+			role := r.FormValue("select-role")
 
-			// Filter characters, respond accordingly
+			// Filter characters do checks, respond accordingly
+
+			// Send Register request
+			err := RegisterRequest(username, password, email, role)
+
+			if err != nil {
+				fmt.Printf("%v", err)
+			}
+			// If successful, respond accordingly
+
 		default:
 			http.Error(w, "Status Not allowed", http.StatusMethodNotAllowed)
 
