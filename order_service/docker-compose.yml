@@ -4,7 +4,6 @@ version: '3.9'
 
 services:
 
-  
   orders_db: 
     image: mysql
     ports: 
