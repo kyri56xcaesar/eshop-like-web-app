@@ -32,15 +32,28 @@ app.get("/orders/:id", async (req, res) => {
   
 }); 
 
+
+const kafka = require('./kafka.js');
+
 //store new data in a database
 app.post("/orders", async (req, res) => {
 
     try {
+        // store to database
         const data = req.body;
         const db = await connection;
         const store = await db.execute(`INSERT INTO  orders (products, total_price, status, username) VALUES (?, ?, ?, ?)`,
             [data.products, data.total_price, data.status, data.username]
         );
+
+        // send to kafka
+        const msg = {
+            id: store[0].insertId,
+            products: data.products
+        }
+
+        await kafka.kafkaProducer(msg);
+
         res.send(store);
     } catch (error) {
         res.status(500).send(error.message);
