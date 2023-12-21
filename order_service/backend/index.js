@@ -1,3 +1,5 @@
+const kafka = require("./kafka.js");
+
 const express = require("express");
 const cors = require("cors");
 const port = process.env.PORT || 5000;
@@ -12,6 +14,10 @@ app.use(express.json());
 app.get("/health", (req, res) => {
   res.send("ok");
 });
+
+
+
+
 
 //get all data
 app.get("/products", async (req, res) => {
