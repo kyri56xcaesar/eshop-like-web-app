@@ -14,14 +14,16 @@ var client *http.Client
 // Initialize a client in our service.
 // Will be reused for all http requests sent.
 func createClient() {
-	client = &http.Client{}
 
+	client = &http.Client{}
 }
 
 // Send http request to keycloak in order to Register a user.
 // Firstly must acquire the access token
 func LoginRequest(username, password string) error {
 	fmt.Println("Trying to log in as user...")
+
+	client_secret := "PcOdI78QbDPUlJExmVO3hieF6gRJFAsz"
 
 	// If there is no client initialized return..
 	if client == nil {
@@ -30,8 +32,8 @@ func LoginRequest(username, password string) error {
 	}
 
 	// Must aqcuire access token
-	url := "http://localhost:8080/auth/admin/realms/eshop_project/protocol/openid-connect/token"
-	payload := strings.NewReader(fmt.Sprintf("username=%s&password=%s&client_secret=HkQiIZCJEC3hSvGoLeTMDGModjWwEfxY&grant_type=client_credentials&client_id=admin-cli", username, password))
+	url := "http://localhost:8080/auth/admin/realms/master/protocol/openid-connect/token"
+	payload := strings.NewReader(fmt.Sprintf("username=%s&password=%s&client_secret=%s&grant_type=client_credentials&client_id=admin-cli", username, password, client_secret))
 
 	// create a new http request
 	request, err := http.NewRequest("POST", url, payload)
@@ -77,6 +79,8 @@ func LoginRequest(username, password string) error {
 func RegisterRequest(username, password, email, role string) error {
 	fmt.Println("Trying to register a user...")
 
+	client_secret := "PcOdI78QbDPUlJExmVO3hieF6gRJFAsz"
+
 	// If there is no client initialized return..
 	if client == nil {
 		err := errors.New("no http client existing")
@@ -85,7 +89,7 @@ func RegisterRequest(username, password, email, role string) error {
 
 	// Must aqcuire access token
 	apiUrl := "http://localhost:8080/auth/realms/master/protocol/openid-connect/token"
-	payload := strings.NewReader("client_secret=HkQiIZCJEC3hSvGoLeTMDGModjWwEfxY&grant_type=client_credentials&client_id=admin-cli")
+	payload := strings.NewReader(fmt.Sprintf("client_secret=%s&grant_type=client_credentials&client_id=admin-cli", client_secret))
 
 	// create a new http request
 	request, err := http.NewRequest("POST", apiUrl, payload)
