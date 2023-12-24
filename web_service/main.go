@@ -122,11 +122,13 @@ func main() {
 			// Filter characters
 
 			// Send Login Request
-			err := LoginRequest(username, password)
+			status, err := LoginRequest(username, password)
 
 			if err != nil {
 				fmt.Printf("%v", err)
 			}
+
+			fmt.Printf("Login request response: %d\n", status)
 			// If logged in, respond accordingly
 		case 5:
 			// Register form request
@@ -139,11 +141,14 @@ func main() {
 			// Filter characters do checks, respond accordingly
 
 			// Send Register request
-			err := RegisterRequest(username, password, email, role)
+			status, err := RegisterRequest(username, password, email, role)
 
 			if err != nil {
 				fmt.Printf("%v", err)
 			}
+
+			fmt.Printf("Register request response: %d\n", status)
+
 			// If successful, respond accordingly
 
 		default:
