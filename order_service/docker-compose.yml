@@ -96,6 +96,8 @@ services:
       # Where our data will be persisted
     volumes:
       - ./data/products-db:/var/lib/mysql
+    networks:
+      - products
 
 
 networks:

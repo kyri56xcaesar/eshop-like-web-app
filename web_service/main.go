@@ -83,12 +83,8 @@ func main() {
 		fmt.Print("\n------------------------------------\n")
 		fmt.Printf("\nMethod type: %v\n", r.Method)
 
-		if r.Method == http.MethodGet {
-
-			// Serve the HTML form
-			http.ServeFile(w, r, "web/index.html")
-
-		}
+		// Serve the HTML form
+		http.ServeFile(w, r, "web/index.html")
 
 	})
 
