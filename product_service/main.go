@@ -53,16 +53,17 @@ func main() {
 	var err error
 	db, err = sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
 	pingErr := db.Ping()
 	if pingErr != nil {
-		log.Fatal(pingErr)
+		panic(pingErr)
 	}
 
 	fmt.Print("--> Successfully connected to the Database.\n\n")
 
+	// Initialize database
 	createTable := `
             CREATE TABLE IF NOT EXISTS products (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -81,18 +82,15 @@ func main() {
 	rows.Close()
 
 	// Setup Service
+	Router := chi.NewRouter()
 
-	router := chi.NewRouter()
-
-	router.Use(cors.Handler(cors.Options{
+	Router.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"https://*", "http://*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
 		AllowedHeaders:   []string{"*"},
 		AllowCredentials: false,
 		MaxAge:           300,
 	}))
-
-	Router := chi.NewRouter()
 
 	Router.Get("/health", handlerReadiness)
 	Router.Get("/err", handlerErr)
@@ -194,7 +192,12 @@ func insertProduct(w http.ResponseWriter, r *http.Request) {
 	pr := Product{}
 	err := json.Unmarshal([]byte(fmt.Sprintf(`%s`, formatted)), &pr)
 	if err != nil {
-		respondWithError(w, 404, "Resource not found")
+		respondWithError(w, 404, "Resource not inserted")
+		return
+	}
+
+	if pr.Title == "" || pr.Price < 0 || pr.Username == "" {
+		respondWithError(w, 404, "Resource not inserted")
 		return
 	}
 
