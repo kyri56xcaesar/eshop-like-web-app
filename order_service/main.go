@@ -150,12 +150,12 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, 404, "Resource not inserted")
 		return
 	}
-	if ord.Products == nil || ord.Status == "" || ord.Username == "" {
+	if ord.Products == nil || ord.Username == "" {
 		respondWithError(w, 404, "Resource not inserted")
 		return
 	}
 
-	fmt.Printf("%+v\n", ord)
+	ord.Status = "pending"
 
 	order_products, err := json.Marshal(ord.Products)
 	if err != nil {
@@ -170,6 +170,33 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 
 	}
 	last_id, _ := res.LastInsertId()
+
+	ord.ID = int(last_id)
+	fmt.Printf("%+v\n\n", ord)
+
+	// send to kafka
+	var products_info []ProductsInfo
+
+	for _, product := range ord.Products {
+		var product_info ProductsInfo
+
+		product_info.Product_id = product.ID
+		product_info.Amount = product.Quantity
+
+		products_info = append(products_info, product_info)
+	}
+
+	//fmt.Printf("Products info: %+v\n\n", products_info)
+
+	kafka_msg := KafkaMsg{Order_id: int(last_id), Pr_info: products_info}
+
+	//fmt.Printf("Kafka Msg: %+v\n\n", kafka_msg)
+
+	jmsg, _ := json.Marshal(kafka_msg)
+	msg, _ := formatJSON(jmsg)
+
+	Produce(string(msg), 1)
+
 	respondWithJSON(w, 200, fmt.Sprintf("ID:%v Inserted", last_id))
 
 }

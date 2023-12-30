@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -8,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
@@ -81,6 +83,8 @@ func main() {
 	}
 	rows.Close()
 
+	// Setup Kafka
+
 	// Setup Service
 	Router := chi.NewRouter()
 
@@ -124,6 +128,12 @@ func main() {
 		Handler: Router,
 		Addr:    ":" + port,
 	}
+
+	// Setup Kafka Consumer
+	time.Sleep(2 * time.Second)
+	ctx, cancel := context.WithCancel(context.Background())
+	go Consume(ctx)
+	defer cancel()
 
 	// Launch Service
 	log.Printf("Service starting on port %v", port)
