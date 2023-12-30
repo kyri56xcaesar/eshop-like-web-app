@@ -1,11 +1,21 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
+	"fmt"
 	"log"
 	"strings"
 	"time"
 
 	"github.com/IBM/sarama"
+)
+
+const (
+	CONST_HOST       string = "localhost:8097"
+	CONST_PROD_TOPIC string = "ordersProducer"
+	CONST_CONS_TOPIC string = "orderConfirm"
+	CONST_GROUP      string = "order-confirm-group"
 )
 
 type KafkaMsg struct {
@@ -18,12 +28,41 @@ type ProductsInfo struct {
 	Amount     int `json:"amount"`
 }
 
-func Produce(str string, limit int) {
+type OrderConfirmation struct {
+	Order_id int    `json:"order_id"`
+	Status   string `json:"status"`
+}
 
-	const (
-		CONST_HOST  string = "localhost:8097"
-		CONST_TOPIC string = "ordersProducer"
-	)
+type Consumer struct {
+}
+
+func (*Consumer) Setup(sarama.ConsumerGroupSession) error   { return nil }
+func (*Consumer) Cleanup(sarama.ConsumerGroupSession) error { return nil }
+
+func (consumer *Consumer) ConsumeClaim(
+	sess sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
+
+	for msg := range claim.Messages() {
+		fmt.Print("\n\n------------------------------------\n")
+		fmt.Printf("Kafka: message consumed at %s.\n\n", CONST_CONS_TOPIC)
+
+		// process message
+		ordConfirm := OrderConfirmation{}
+		_ = json.Unmarshal(msg.Value, &ordConfirm)
+		fmt.Printf("%+v\n", ordConfirm)
+
+		_, err := Db.Exec(`UPDATE orders SET status=? WHERE id=?;`, ordConfirm.Status, ordConfirm.Order_id)
+		if err != nil {
+			return err
+
+		}
+
+		sess.MarkMessage(msg, "")
+	}
+	return nil
+}
+
+func Produce(str string, limit int) {
 
 	config := sarama.NewConfig()
 
@@ -42,7 +81,7 @@ func Produce(str string, limit int) {
 	defer producer.Close()
 
 	for i := 0; i < limit; i++ {
-		msg := &sarama.ProducerMessage{Topic: CONST_TOPIC, Key: nil, Value: sarama.StringEncoder(str)}
+		msg := &sarama.ProducerMessage{Topic: CONST_PROD_TOPIC, Key: nil, Value: sarama.StringEncoder(str)}
 		partition, offset, err := producer.SendMessage(msg)
 		if err != nil {
 			log.Println("SendMessage err: ", err)
@@ -50,52 +89,61 @@ func Produce(str string, limit int) {
 		}
 		formatValue := strings.ReplaceAll(str, "\n", "")
 		formatValue = strings.ReplaceAll(formatValue, " ", "")
+		fmt.Print("\n\n------------------------------------\n")
+		fmt.Printf("Kafka: message produced at %s.\n\n", CONST_PROD_TOPIC)
+
 		log.Printf("[producer] partition id: %d; offset: %d, value: %s\n", partition, offset, formatValue)
 	}
 
 }
 
-func Consume() {
-
-	const (
-		CONST_HOST  = "localhost:8097"
-		CONST_TOPIC = "ordersConfirm"
-	)
+func initializeConsumerGroup() (sarama.ConsumerGroup, error) {
 
 	// Configure Consumer
 	config := sarama.NewConfig()
 
-	config.ClientID = "orders-app"
+	config.ClientID = "products-app"
 	config.Admin.Retry.Backoff = 2000
 	config.Admin.Retry.Max = 5
 
 	config.Version = sarama.DefaultVersion
 
-	// config.Consumer.Group.InstanceId = "products-group"
 	config.Consumer.Offsets.AutoCommit.Enable = false
 	config.Consumer.Offsets.AutoCommit.Interval = 1 * time.Second
 
-	// Create consumer
-	var err error
-	Consumer, err := sarama.NewConsumer([]string{CONST_HOST}, config)
+	consumerGroup, err := sarama.NewConsumerGroup(
+		[]string{CONST_HOST}, CONST_GROUP, config)
+
 	if err != nil {
-		log.Fatal("NewConsumer err: ", err)
+		return nil, fmt.Errorf("failed to initialize consumer group: %w", err)
 	}
 
-	defer Consumer.Close()
+	fmt.Println("--> Consumer group initialized.")
+	return consumerGroup, nil
 
-	partitionList, _ := Consumer.Partitions(CONST_TOPIC)
-	//fmt.Println(partitionList)
+}
 
-	messages := make(chan *sarama.ConsumerMessage, 512)
-	initialOffset := sarama.OffsetOldest //offset to start reading message from
-	for _, partition := range partitionList {
-		pc, _ := Consumer.ConsumePartition(CONST_TOPIC, partition, initialOffset)
-		go func(pc sarama.PartitionConsumer) {
-			for message := range pc.Messages() {
-				messages <- message //or call a function that writes to disk
-			}
-		}(pc)
+func Consume(ctx context.Context) {
+
+	consumerGroup, err := initializeConsumerGroup()
+	if err != nil {
+		log.Printf("initialization error: %v", err)
+		return
+	}
+
+	defer consumerGroup.Close()
+
+	consumer := &Consumer{}
+
+	for {
+		err = consumerGroup.Consume(ctx, []string{CONST_CONS_TOPIC}, consumer)
+		if err != nil {
+			log.Printf("error from consumer: %v\n", err)
+		}
+
+		if ctx.Err() != nil {
+			return
+		}
 	}
 
 }

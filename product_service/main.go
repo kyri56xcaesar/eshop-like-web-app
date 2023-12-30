@@ -29,7 +29,7 @@ type Product struct {
 	Username string  `json:"username"`
 }
 
-var db *sql.DB
+var Db *sql.DB
 
 func main() {
 	fmt.Print("Welcome to the Product Service.\n")
@@ -53,12 +53,12 @@ func main() {
 
 	// Get database handle
 	var err error
-	db, err = sql.Open("mysql", cfg.FormatDSN())
+	Db, err = sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
 		panic(err)
 	}
 
-	pingErr := db.Ping()
+	pingErr := Db.Ping()
 	if pingErr != nil {
 		panic(pingErr)
 	}
@@ -76,7 +76,7 @@ func main() {
                 username VARCHAR(255)
             );
         `
-	rows, err := db.Query(createTable)
+	rows, err := Db.Query(createTable)
 
 	if err != nil {
 		panic(err)
@@ -156,7 +156,7 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("\n\n------------------------------------\n")
 	fmt.Println("Get request at /products")
 
-	rows, err := db.Query("SELECT * FROM products;")
+	rows, err := Db.Query("SELECT * FROM products;")
 
 	var products []Product
 
@@ -213,7 +213,7 @@ func insertProduct(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("%+v\n", pr)
 
-	res, err := db.Exec(`INSERT INTO products (title, img, price, quantity, username) VALUES (?, ?, ?, ?, ?)`, pr.Title, pr.Img, pr.Price, pr.Quantity, pr.Username)
+	res, err := Db.Exec(`INSERT INTO products (title, img, price, quantity, username) VALUES (?, ?, ?, ?, ?)`, pr.Title, pr.Img, pr.Price, pr.Quantity, pr.Username)
 	if err != nil {
 		respondWithJSON(w, 404, "Insertion not successful.")
 		return
@@ -230,7 +230,7 @@ func getProductsByID(w http.ResponseWriter, r *http.Request) {
 
 	id := chi.URLParam(r, "id")
 
-	row := db.QueryRow(`SELECT * FROM products WHERE id=?;`, id)
+	row := Db.QueryRow(`SELECT * FROM products WHERE id=?;`, id)
 
 	pr := Product{}
 	if err := row.Scan(&pr.ID, &pr.Title, &pr.Img, &pr.Price, &pr.Quantity, &pr.Username); err != nil {
@@ -265,7 +265,7 @@ func updateProductByID(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("%+v\n", pr)
 
-	res, _ := db.Exec(`UPDATE products SET title=?, img=?, price=?, quantity=?, username=? WHERE id=?;`, pr.Title, pr.Img, pr.Price, pr.Quantity, pr.Username, id)
+	res, err := Db.Exec(`UPDATE products SET title=?, img=?, price=?, quantity=?, username=? WHERE id=?;`, pr.Title, pr.Img, pr.Price, pr.Quantity, pr.Username, id)
 
 	if err != nil {
 		respondWithJSON(w, 404, "Update not successful.")
@@ -282,7 +282,7 @@ func deleteProductByID(w http.ResponseWriter, r *http.Request) {
 
 	id := chi.URLParam(r, "id")
 
-	res, err := db.Exec(`DELETE FROM products WHERE id=?;`, id)
+	res, err := Db.Exec(`DELETE FROM products WHERE id=?;`, id)
 
 	if err != nil {
 		respondWithJSON(w, 404, "Deletion not successful.")
@@ -301,7 +301,7 @@ func getProductsByNAME(w http.ResponseWriter, r *http.Request) {
 
 	name := chi.URLParam(r, "name")
 
-	rows, err := db.Query("SELECT * FROM products WHERE title=?;", name)
+	rows, err := Db.Query("SELECT * FROM products WHERE title=?;", name)
 
 	var products []Product
 
@@ -337,7 +337,7 @@ func getProductsByUSERNAME(w http.ResponseWriter, r *http.Request) {
 
 	username := chi.URLParam(r, "username")
 
-	rows, err := db.Query("SELECT * FROM products WHERE username=?;", username)
+	rows, err := Db.Query("SELECT * FROM products WHERE username=?;", username)
 
 	var products []Product
 

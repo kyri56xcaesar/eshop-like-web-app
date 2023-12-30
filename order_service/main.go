@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -33,7 +34,7 @@ type Product struct {
 	Username string  `json:"username"`
 }
 
-var db *sql.DB
+var Db *sql.DB
 
 func main() {
 	fmt.Print("Welcome to the Order Service.\n")
@@ -55,14 +56,14 @@ func main() {
 	}
 
 	var err error
-	db, err = sql.Open("mysql", cfg.FormatDSN())
+	Db, err = sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
 		panic(err)
 	}
 
-	defer db.Close()
+	defer Db.Close()
 
-	err = db.Ping()
+	err = Db.Ping()
 	if err != nil {
 		panic(err)
 	}
@@ -80,7 +81,7 @@ func main() {
 			username VARCHAR(255)
 		);
         `
-	rows, err := db.Query(createTable)
+	rows, err := Db.Query(createTable)
 
 	if err != nil {
 		panic(err)
@@ -121,6 +122,11 @@ func main() {
 		Handler: Router,
 		Addr:    ":" + port,
 	}
+
+	// Setup Kafka Consumer
+	ctx, cancel := context.WithCancel(context.Background())
+	go Consume(ctx)
+	defer cancel()
 
 	// Launch Service
 	log.Printf("Service starting on port %v", port)
@@ -163,7 +169,7 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := db.Exec(`INSERT INTO orders (products, total_price, status, username) VALUES (?, ?, ?, ?)`, order_products, ord.Total_price, ord.Status, ord.Username)
+	res, err := Db.Exec(`INSERT INTO orders (products, total_price, status, username) VALUES (?, ?, ?, ?)`, order_products, ord.Total_price, ord.Status, ord.Username)
 	if err != nil {
 		respondWithError(w, 404, fmt.Sprintf("Insertion not successful.\n%v", err))
 		return
@@ -208,7 +214,7 @@ func getOrdersByCUSTOMER(w http.ResponseWriter, r *http.Request) {
 
 	username := chi.URLParam(r, "username")
 
-	rows, err := db.Query("SELECT * FROM orders WHERE username=?;", username)
+	rows, err := Db.Query("SELECT * FROM orders WHERE username=?;", username)
 	if err != nil {
 		respondWithError(w, 404, "Something went wrong..")
 		return
