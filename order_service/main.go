@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
@@ -37,6 +38,8 @@ type Product struct {
 var Db *sql.DB
 
 func main() {
+
+	time.Sleep(time.Second * 15)
 	fmt.Print("Welcome to the Order Service.\n")
 
 	// Load environment variables using godotenv
@@ -50,7 +53,7 @@ func main() {
 		User:                 os.Getenv("MYSQL_USER"),
 		Passwd:               os.Getenv("MYSQL_PASSWORD"),
 		Net:                  "tcp",
-		Addr:                 fmt.Sprintf("localhost:%s", dbport),
+		Addr:                 fmt.Sprintf("%s:%s", os.Getenv("HOST"), dbport),
 		DBName:               os.Getenv("MYSQL_DATABASE"),
 		AllowNativePasswords: true,
 	}

@@ -12,7 +12,8 @@ import (
 )
 
 const (
-	CONST_HOST       = "localhost:8097"
+	//CONST_HOST       = "localhost:8097"
+	CONST_HOST       = "kafka:19092"
 	CONST_CONS_TOPIC = "ordersProducer"
 	CONST_PROD_TOPIC = "orderConfirm"
 	CONST_GROUP      = "orders-group"
