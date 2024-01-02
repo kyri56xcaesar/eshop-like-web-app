@@ -67,10 +67,16 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
       MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - "3308:3306"
+    expose:
+      - 3308
     volumes:
       - ./data/orders-db:/var/lib/mysql
-    network_mode: host
-
+    networks:
+      - orders
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
 
 
 
@@ -92,8 +98,6 @@ services:
       # Where our data will be persisted
     volumes:
       - ./data/products-db:/var/lib/mysql
-    networks:
-      - products
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
   # Keycloak  
@@ -150,9 +154,6 @@ services:
       - "${PRODUCT_SERVICE_PORT}:${PRODUCT_SERVICE_PORT}"
     environment:
       PORT: "${PRODUCT_SERVICE_PORT}"
-    networks:
-      - products
-      - default
     depends_on:
       - kafka
       - products_db
@@ -161,10 +162,8 @@ networks:
   default:
       driver: bridge
   keycloak-and-mysql-network:
-  products:
-      driver: bridge
   orders:
-      driver: bridge
+
 
 volumes:
   orders-db:
