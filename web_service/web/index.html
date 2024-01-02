@@ -10,6 +10,10 @@
 </head>
 <body>  
 
+  <script src="./static/js/styles.js"></script>
+  <script src="./static/js/main.js"></script>
+
+
     <header id="header"> 
         
         <div class="upper-div">
@@ -21,12 +25,12 @@
                 
                 <div id="left-headers"> 
 
-                    <div class="navbar change" id="sidebar-close" onclick="menu_function(this)">
+                    <!-- <div class="navbar change" id="sidebar-close" onclick="menu_function(this)">
 
                         <div class="bar1"></div>
                         <div class="bar2"></div>
                         <div class="bar3"></div>
-                    </div>
+                    </div> -->
                     
                     <span class="option-select" onclick="Home_Style()"><a href="#">Home</a></span>
                 </div>
@@ -44,7 +48,7 @@
 
     </header>
 
-    <nav class="sidebar close">
+    <!-- <nav class="sidebar close">
 
       
         <a href="#" class="logo">ESHOP</a>
@@ -121,7 +125,7 @@
         <div class="qr-code">
 
         </div>
-      </nav>
+    </nav> -->
 
 
     <main role="main">
@@ -129,18 +133,19 @@
 
         <div id="login-register-form">
             <div class="login-form">
-                <form id="login-form" action='/v1/' method="POST" >
+                <form id="login-form" onsubmit="return submitFormAjax(event);">
                     <p id="register-tag">Login</p>
 
                     <input id="login-username" name="login-username" type="text" placeholder="Όνομα" required/> <br/>
                     <input id="login-password" name="login-password" type="password" placeholder="Κωδικός" required/> <br/>
                     <input id="submit-login-button" type="submit" value="Login"/>
                 </form>
+
             </div>
 
             <div class="register-form">
 
-              <form id="register-form" action='/v1/' method="POST" >
+              <form id="register-form" onsubmit="submitFormAjax();", method="POST">
                   <p id="register-tag">Register</p>
                   <input id="register-username" name="register-username" type="text" placeholder="Όνομα" required/> <br/>
                   <input id="register-password" name="register-password" type="password" placeholder="Κωδικός" required/> <br/>
@@ -156,6 +161,7 @@
                   <input id="submit-register-button" type="submit" value="Register"/>
               
               </form>
+
             </div>
         </div>
 
@@ -171,16 +177,12 @@
 
     <footer id="footer">
 
-        <h5>  footer</h5>
+        <h5>  ΠΛΗ 513 Project</h5>
         <div class="lower-div">
             <div id="lower-footer">
                 
             </div>
         </div>
     </footer>
-    <script src="./static/js/styles.js"></script>
-    <script src="./static/js/main.js"></script>
-
-
 </body>
 </html>

@@ -41,7 +41,7 @@ func FileServer(r chi.Router, path string, root http.FileSystem) {
 }
 
 func main() {
-	fmt.Print("Welcome.\n")
+	fmt.Print("Welcome to the Web Service.\n")
 
 	//Load environment variables
 	godotenv.Load(".env")
@@ -58,111 +58,25 @@ func main() {
 	// Insert cors options.
 	router.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"https://*", "http://*"},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedMethods:   []string{"GET", "POST"},
 		AllowedHeaders:   []string{"*"},
 		AllowCredentials: false,
 		MaxAge:           300,
 	}))
 
-	// Subrouter (for version control)
-	v1Router := chi.NewRouter()
-
 	// Setup FileServer for the static files.
 	filesDir := http.Dir("./web/static")
-	FileServer(v1Router, "/static", filesDir)
+	FileServer(router, "/static", filesDir)
 
 	// Initialize Client
 	createClient()
 
 	// Setup routes.
-	v1Router.Get("/healthz", handlerReadiness)
-	v1Router.Get("/err", handlerErr)
+	router.Get("/health", handlerReadiness)
+	router.Get("/err", handlerErr)
 
-	v1Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-
-		fmt.Print("\n------------------------------------\n")
-		fmt.Printf("\nMethod type: %v\n", r.Method)
-
-		// Serve the HTML form
-		http.ServeFile(w, r, "web/index.html")
-
-	})
-
-	v1Router.Post("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Print("\n------------------------------------\n")
-		fmt.Printf("\nMethod type: %v\n", r.Method)
-
-		//fmt.Print(r)
-
-		err := r.ParseForm()
-
-		if err != nil {
-			http.Error(w, "Failed to parse form", http.StatusBadRequest)
-			return
-		}
-
-		// Retrieve and process the form data
-
-		// fmt.Printf("Username: %s\nPassword: %s\n", username, password)
-
-		// for key, value := range r.Form {
-		// 	fmt.Printf("%s = %s\n", key, value)
-		// }
-
-		switch len(r.Form) {
-		case 2:
-			// Login form request
-			username := r.FormValue("login-username")
-			password := r.FormValue("login-password")
-
-			// Filter characters
-
-			// Send Login Request
-			status, err := LoginRequest(username, password)
-
-			if err != nil {
-				fmt.Printf("%v", err)
-			}
-
-			fmt.Printf("Login request response: %d\n", status)
-			// If logged in, respond accordingly
-		case 5:
-			// Register form request
-			username := r.FormValue("register-username")
-			password := r.FormValue("register-password")
-			//password_r := r.FormValue("register-password-repeat")
-			email := r.FormValue("register-email")
-			role := r.FormValue("select-role")
-
-			// Filter characters do checks, respond accordingly
-
-			// Send Register request
-			status, err := RegisterRequest(username, password, email, role)
-
-			if err != nil {
-				fmt.Printf("%v", err)
-			}
-
-			fmt.Printf("Register request response: %d\n", status)
-
-			// If successful, respond accordingly
-
-		default:
-			http.Error(w, "Status Not allowed", http.StatusMethodNotAllowed)
-
-		}
-
-		// Validate user credintials and redirect accordingly.
-		// Perhaps use html/template to form the ServedFile
-
-		// Send request to other service
-
-		http.ServeFile(w, r, "web/index.html")
-
-	})
-
-	// Mount subrouter to the main router
-	router.Mount("/v1", v1Router)
+	router.Get("/", HandleRootGet)
+	router.Post("/", HandleRootPost)
 
 	// Setup the server
 	srv := &http.Server{

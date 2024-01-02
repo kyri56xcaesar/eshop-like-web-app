@@ -73,8 +73,8 @@ func LoginRequest(username, password string) (int, error) {
 	}
 
 	status := response.StatusCode
-	fmt.Println("Status: ", status)
-	fmt.Println("Response body: ", formattedData)
+	//fmt.Println("Status: ", status)
+	//fmt.Println("Response body: ", formattedData)
 
 	var data_json map[string]interface{}
 
@@ -166,13 +166,17 @@ func RegisterRequest(username, password, email, role string) (int, error) {
 	}
 
 	defer reg_response.Body.Close()
-	body, _ := io.ReadAll(reg_response.Body)
+	//body, _ := io.ReadAll(reg_response.Body)
 
 	status := reg_response.StatusCode
-	fmt.Println("Status: ", status)
+	//fmt.Println("Status: ", status)
 
-	fmt.Println(reg_response)
-	fmt.Println(string(body))
+	//fmt.Println(reg_response)
+	//fmt.Println(string(body))
 
 	return status, nil
+}
+
+func LogoutRequest() {
+
 }
