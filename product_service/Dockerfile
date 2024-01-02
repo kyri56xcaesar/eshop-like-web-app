@@ -17,4 +17,4 @@ RUN chmod +x /usr/local/bin/wait-for-it
 
 EXPOSE ${PORT}
 
-CMD ["wait-for-it", "products_db:3310", "--", "/product_service"]
+CMD ["wait-for-it", "kafka:19092", "--", "/product_service"]

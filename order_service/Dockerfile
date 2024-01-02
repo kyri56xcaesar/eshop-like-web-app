@@ -19,5 +19,5 @@ ADD wait-for-it.sh /usr/local/bin/wait-for-it
 RUN chmod +x /usr/local/bin/wait-for-it
 
 
-CMD ["wait-for-it", "orders_db:3308", "--", "/order_service"]
+CMD ["wait-for-it", "kafka:19092", "--", "/order_service"]
 

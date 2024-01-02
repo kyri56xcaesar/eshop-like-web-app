@@ -57,13 +57,8 @@ services:
       - default
       restart: always
 
-  orders_db: 
+  orders_db:
     image: mysql
-    ports: 
-      - "3308:3306"
-    expose:
-      # Opens port 3306 on the container
-      - 3308
     container_name: orders_db
     command: --default-authentication-plugin=mysql_native_password
     restart: always
@@ -71,13 +66,13 @@ services:
       MYSQL_DATABASE: order_db
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
-      MYSQL_ROOT_PASSWORD: admin 
+      MYSQL_ROOT_PASSWORD: admin
     volumes:
-      - ./data/orders-db:/var/lib/mysql   
-    networks:
-      - orders
-    extra_hosts:
-      - "host.docker.internal:172.17.0.2"
+      - ./data/orders-db:/var/lib/mysql
+    network_mode: host
+
+
+
 
   products_db:
     container_name: products_db
