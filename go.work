@@ -1,0 +1,7 @@
+go 1.21.5
+
+use (
+	./order_service
+	./product_service
+	./web_service
+)

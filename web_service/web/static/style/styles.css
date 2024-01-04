@@ -18,7 +18,8 @@ header {
     text-align: center;
     padding-left: 10px;
     padding-right: 10px;
-    padding-bottom: 45px;
+    padding-bottom:25px;
+    padding-top: 0px;
 
     background-image: url("../assets/purple_background.png");
     background-size: cover; /* This makes the image cover the entire container */
@@ -33,7 +34,6 @@ main {
 
 
     flex: 1;
-    height: 100px;
 
     width: 100%;
     background-color: rgba(202, 194, 194, 0.315);
@@ -49,14 +49,14 @@ main {
 
 footer {
     background-color: #617798;
-
-    position: absolute;
-    flex: 2;
-    bottom: 0;
+    
+    height: 30px;
     width: 100%;
     padding-bottom: 5px;
-    margin-bottom: 20px;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
@@ -74,7 +74,7 @@ span a {
 #header-selectors {
 
 
-    height: 50px;
+    /* height: 50px; */
 
     /* border-bottom-width: 2px;
     border-bottom-style: dotted;
@@ -111,7 +111,7 @@ span a {
     
 
     display: flex;
-    justify-content: end;
+    justify-content: center;
     align-items: center;
 
     text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #cf3a96, 0 0 30px #cf3a96, 0 0 40px #cf3a96, 0 0 55px #cf3a96, 0 0 75px #cf3a96
@@ -138,8 +138,8 @@ span a {
 #left-headers {
     width: 45%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: start;
+    align-items: start;
     transition: all 0.5s ease;
 
     
@@ -150,6 +150,7 @@ span a {
     display: flex;
     justify-content: end;
     align-items: center;
+    padding-right: 40px;
 }
 
 
@@ -162,7 +163,7 @@ span a {
 
     user-select: none;
 
-    margin-left: 50px;
+    margin-left: 80px;
 
 
     height: 100px;
@@ -216,7 +217,7 @@ span a {
     
     padding-top: 0px;
     padding-bottom: 0px;
-    margin-top: 0px;
+    margin-top: 30px;
     margin-bottom: 250px;
 
     display: none;
@@ -232,7 +233,9 @@ span a {
 .register-form {
   
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
 }
 
@@ -254,6 +257,17 @@ span a {
     margin-bottom: 20px;
 }
 
+
+.select-role {
+  font-size: 15px;
+  width: 300px;
+  height: 60px;
+
+  margin-top: 20px;
+
+  
+  
+}
 
 
 form > p {

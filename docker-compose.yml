@@ -1,0 +1,172 @@
+
+version: '3.9'
+
+services:
+
+  zookeeper:
+      image: confluentinc/cp-zookeeper:7.2.1
+      container_name: zookeeper
+      environment:
+        ZOOKEEPER_CLIENT_PORT: 2181
+      networks:
+      - default
+
+  kafka:
+    image: confluentinc/cp-kafka:7.2.1
+    container_name: kafka
+    ports:
+      - "8097:8097"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: EXTERNAL://localhost:8097,INTERNAL://kafka:19092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: localhost
+    networks:
+     - default
+    restart: on-failure
+    healthcheck:
+        test: ["CMD", "ping", "-c","1", "localhost:8097"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+  control-center:
+      image: confluentinc/cp-enterprise-control-center:latest
+      hostname: control-center
+      depends_on:
+        - kafka
+      ports:
+        - "9021:9021"
+      expose:
+        - 9021
+      environment:
+        CONTROL_CENTER_BOOTSTRAP_SERVERS: 'kafka:19092'
+        CONTROL_CENTER_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+        CONTROL_CENTER_REPLICATION_FACTOR: 1
+        PORT: 9021
+      networks:
+      - default
+      restart: always
+
+  orders_db:
+    image: mysql
+    container_name: orders_db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: order_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - "3308:3306"
+    expose:
+      - 3308
+    volumes:
+      - ./data/orders-db:/var/lib/mysql
+    networks:
+      - orders
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+
+
+
+  products_db:
+    container_name: products_db
+    image: mysql:5.7
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: products_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - '3310:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3310'
+      # Where our data will be persisted
+    volumes:
+      - ./data/products-db:/var/lib/mysql
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+  # Keycloak  
+  postgres:
+      image: postgres
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: password
+  keycloak:
+      image: quay.io/keycloak/keycloak:legacy
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_SCHEMA: public
+        DB_PASSWORD: password
+        KEYCLOAK_USER: ${KEYCLOAK_USER}
+        KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+        #JDBC_PARAMS: "ssl=true"
+      ports:
+        - ${KEYCLOAK_PORT}:8080
+      depends_on:
+        - postgres
+  
+  order_service:
+    build:
+      context: ./order_service
+      dockerfile: Dockerfile
+    container_name: order_service
+    restart: always
+    ports:
+      - "${ORDER_SERVICE_PORT}:${ORDER_SERVICE_PORT}"
+    environment:
+      PORT: "${ORDER_SERVICE_PORT}"
+    networks:
+      - orders
+      - default
+    depends_on:
+      - kafka
+      - orders_db
+
+  product_service:
+    build:
+      context: ./product_service
+      dockerfile: Dockerfile
+    container_name: product_service
+    restart: always
+    ports:
+      - "${PRODUCT_SERVICE_PORT}:${PRODUCT_SERVICE_PORT}"
+    environment:
+      PORT: "${PRODUCT_SERVICE_PORT}"
+    depends_on:
+      - kafka
+      - products_db
+
+networks:
+  default:
+      driver: bridge
+  keycloak-and-mysql-network:
+  orders:
+
+
+volumes:
+  orders-db:
+  products-db:
+  postgres_data:
+      driver: local

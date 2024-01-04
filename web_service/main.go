@@ -41,7 +41,7 @@ func FileServer(r chi.Router, path string, root http.FileSystem) {
 }
 
 func main() {
-	fmt.Print("Welcome.\n")
+	fmt.Print("Welcome to the Web Service.\n")
 
 	//Load environment variables
 	godotenv.Load(".env")
@@ -64,58 +64,19 @@ func main() {
 		MaxAge:           300,
 	}))
 
-	// Subrouter (for version control)
-	v1Router := chi.NewRouter()
-
 	// Setup FileServer for the static files.
 	filesDir := http.Dir("./web/static")
-	FileServer(v1Router, "/static", filesDir)
+	FileServer(router, "/static", filesDir)
+
+	// Initialize Client
+	createClient()
 
 	// Setup routes.
-	v1Router.Get("/healthz", handlerReadiness)
-	v1Router.Get("/err", handlerErr)
+	router.Get("/health", handlerReadiness)
+	router.Get("/err", handlerErr)
 
-	v1Router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Printf("\nMethod type: %v\n", r.Method)
-
-		if r.Method == http.MethodGet {
-
-			// Serve the HTML form
-			http.ServeFile(w, r, "web/index.html")
-
-		}
-
-	})
-
-	v1Router.Post("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Printf("\nMethod type: %v\n", r.Method)
-
-		err := r.ParseForm()
-
-		if err != nil {
-			http.Error(w, "Failed to parse form", http.StatusBadRequest)
-			return
-		}
-
-		// Retrieve and process the form data
-		// username := r.FormValue("username")
-		// password := r.FormValue("password")
-		// fmt.Printf("Username: %v\nPassword: %v\n\n\n", username, password)
-
-		for key, value := range r.Form {
-			fmt.Printf("%s = %s\n", key, value)
-		}
-
-		// Validate user credintials and redirect accordingly.
-		// Perhaps use html/template to form the ServedFile
-
-		// Send request to other service
-
-		http.ServeFile(w, r, "web/index.html")
-	})
-
-	// Mount subrouter to the main router
-	router.Mount("/v1", v1Router)
+	router.Get("/", HandleRootGet)
+	router.Post("/", HandleRootPost)
 
 	// Setup the server
 	srv := &http.Server{
