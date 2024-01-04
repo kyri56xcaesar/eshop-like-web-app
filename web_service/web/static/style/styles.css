@@ -18,7 +18,8 @@ header {
     text-align: center;
     padding-left: 10px;
     padding-right: 10px;
-    padding-bottom: 45px;
+    padding-bottom:25px;
+    padding-top: 0px;
 
     background-image: url("../assets/purple_background.png");
     background-size: cover; /* This makes the image cover the entire container */
@@ -73,7 +74,7 @@ span a {
 #header-selectors {
 
 
-    height: 50px;
+    /* height: 50px; */
 
     /* border-bottom-width: 2px;
     border-bottom-style: dotted;
@@ -149,6 +150,7 @@ span a {
     display: flex;
     justify-content: end;
     align-items: center;
+    padding-right: 40px;
 }
 
 
@@ -161,7 +163,7 @@ span a {
 
     user-select: none;
 
-    margin-left: 50px;
+    margin-left: 80px;
 
 
     height: 100px;
@@ -215,7 +217,7 @@ span a {
     
     padding-top: 0px;
     padding-bottom: 0px;
-    margin-top: 70px;
+    margin-top: 30px;
     margin-bottom: 250px;
 
     display: none;

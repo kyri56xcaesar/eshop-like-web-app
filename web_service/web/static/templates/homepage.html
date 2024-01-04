@@ -3,16 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/style/matrix_styles.css"/>
+    <title>Eshop</title>
+    <link rel="stylesheet" href="../style/styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+
 </head>
+<body>  
 
-<body>
-    <a href="../../">back...</a>
+  <script src="../js/styles.js"></script>
+  <script src="../js/main.js"></script>
 
-    <canvas id="canvas1"></canvas>
-    
 
-    <!-- <script src="../static/js/matrix_effect.js"></script> -->
+    <header id="header"> 
+        
+        <div class="upper-div">
+            <div id="header-selectors">
+
+                <div id="left-space">
+
+                </div>
+                
+                <div id="left-headers"> 
+
+                    <!-- <div class="navbar change" id="sidebar-close" onclick="menu_function(this)">
+
+                        <div class="bar1"></div>
+                        <div class="bar2"></div>
+                        <div class="bar3"></div>
+                    </div> -->
+                    
+                    <span class="option-select" onclick="Home_Style()"><a href="#">Home</a></span>
+                </div>
+
+                <div id="main-title">
+                    <h1>E-SHOP</h1>
+                </div>
+
+                <div id="right-headers">
+
+                    <!-- <span class="option-select" onclick="Login_Style()">Login</span>
+                    <span class="option-select" onclick="Register_Style()">Register</span> -->
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <!-- <nav class="sidebar close">
+
+      
+        <a href="#" class="logo">ESHOP</a>
+        <div id="sidebar-top-seperator"><br><hr></div>
+        <div class="menu-content">
+          <ul class="menu-items">
+            <div class="menu-title"><h2>Menu</h2></div>
+            <li class="item">
+              <a href="#">Profile</a>
+            </li>
+            <li class="item">
+              <div class="submenu-item">
+                <span>Products</span>
+                <i class="fa-solid fa-chevron-right"></i>
+              </div>
+              <ul class="menu-items submenu">
+                <div class="menu-title">
+                  <i class="fa-solid fa-chevron-left"></i>
+                  Your submenu title
+                </div>
+                <li class="item">
+                  <a href="#">First sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">First sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">First sublink</a>
+                </li>
+              </ul>
+            </li>
+            <li class="item">
+              <div class="submenu-item">
+                <span>Orders</span>
+                <i class="fa-solid fa-chevron-right"></i>
+              </div>
+              <ul class="menu-items submenu">
+                <div class="menu-title">
+                  <i class="fa-solid fa-chevron-left"></i>
+                  Your submenu title
+                </div>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+                <li class="item">
+                  <a href="#">Second sublink</a>
+                </li>
+
+
+               
+              </ul>
+            </li>
+            
+          </ul>
+
+         
+        </div>
+        <div class="admin-control">
+            
+        </div>
+
+        <div class="qr-code">
+
+        </div>
+    </nav> -->
+
+
+    <main role="main">
+
+
+        <div id="login-register-form">
+            <div class="login-form">
+                <form id="login-form" onsubmit="return Login(event);">
+                    <p id="register-tag">Login</p>
+
+                    <input id="login-username" name="login-username" type="text" placeholder="Όνομα" required/> <br/>
+                    <input id="login-password" name="login-password" type="password" placeholder="Κωδικός" required/> <br/>
+                    <input id="submit-login-button" type="submit" value="Login"/>
+                </form>
+
+            </div>
+
+            <div class="register-form">
+
+              <form id="register-form" onsubmit="return Register(event);">
+                  <p id="register-tag">Register</p>
+                  <input id="register-username" name="register-username" type="text" placeholder="Όνομα" required/> <br/>
+                  <input id="register-password" name="register-password" type="password" placeholder="Κωδικός" required/> <br/>
+                  <!-- <input id="register-password-repeat" name="register-password-repeat" type="password" placeholder="Επανάληψη κωδικού" required> <br/> -->
+                  <input id="register-email" name="register-email" type="text" placeholder="Email" required/><br/>
+                  <div class="select-role">
+                    <label for="select-role">Select Role:</label>
+                    <select id="select-role" name="select-role">
+                      <option value="Customers">Customer</option>
+                      <option value="Sellers">Seller</option>
+                    </select>
+                  </div>
+                  <input id="submit-register-button" type="submit" value="Register"/>
+              
+              </form>
+
+            </div>
+        </div>
+
+
+        <div id="follow-up-body">
+
+
+        </div>
+
+
+
+    </main>
+
+    <footer id="footer">
+
+        <h5>  ΠΛΗ 513 Project</h5>
+        <div class="lower-div">
+            <div id="lower-footer">
+                
+            </div>
+        </div>
+    </footer>
 </body>
-
 </html>
