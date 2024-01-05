@@ -45,7 +45,7 @@ axios.get(products_url)
         const productsElement = document.getElementById("productsDisplay");
 
         products.forEach(product => {
-            console.log("Product retrieved: " + product);
+            console.log("Product id retrieved: " + product.id);
             const productDiv = document.createElement('div');
             productDiv.classList.add('product');
 
@@ -55,7 +55,7 @@ axios.get(products_url)
 
             productDiv.innerHTML = `
                 <div id="product">
-                    <h2>${product.title}</h2>
+                    <h3>${product.title}</h3>
                     <img src="${product.img}" alt="${product.title}">
                     <p>Price: $${product.price}</p>
                     <div class="action-buttons">
@@ -101,7 +101,7 @@ axios.get(orders_url)
 
         orderDiv.innerHTML = `
             <div id="product">
-                <h2>${order.title}</h2>
+                <h3>${order.title}</h3>
                 <img src="${order.img}" alt="${order.title}">
                 <p>Price: $${order.price}</p>
                 <div class="action-buttons">

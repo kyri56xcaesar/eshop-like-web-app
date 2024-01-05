@@ -98,7 +98,7 @@
 
       <div class="create-product-form">
 
-        <form id="product-form" onsubmit="return CreateItem(event);">
+        <form id="product-form" onsubmit="return createProduct(event);">
             <div id=create-product-tag><h2><p>Create Product</p></h2></div>
             <label id="product-title-label">Title:</label>
             <input id="product-title" name="register-username" type="text" placeholder="Title" required/> 
@@ -107,7 +107,7 @@
             <input type="text" id="product-price" name="product-price" placeholder="Price">
             
             <label id="product-quantity-label">Quantity:</label>
-            <input type="number" id="product-quantity" name="product-quantity" min="1" max="1000">
+            <input type="number" id="product-quantity" name="product-quantity" placeholder="Quantity" min="1" max="1000">
 
             <input id="create-product-button" type="submit" value="Create Product"/>
         
@@ -124,59 +124,34 @@
 
       </div>
 
-      <script>
-        let queuedImagesArray = [],
-        inputDiv = document.querySelector(".input-div"),
-        input = document.querySelector(".input-div input"),
-        imageDepiction = document.getElementById("imageDepiction");
-        deletedImages = [];
+      <div class="update-product-form">
+        <form id="update-product-form" onsubmit="return updateProduct(event);">
+          <div id=update-product-tag><h2><p>Update Product</p></h2></div>
+            <label id="update-product-title-label">Title:</label>
+            <input id="update-product-title" type="text" placeholder="Title" required/> 
+            
+            <label id="update-product-price-label">Price:</label>
+            <input type="text" id="update-product-price" name="update-product-price" placeholder="Price">
+            
+            <label id="update-product-quantity-label">Quantity:</label>
+            <input type="number" id="update-product-quantity" name="product-quantity" placeholder="Quantity" min="1" max="1000">
 
-        //console.log("Element");
-        // console.log(input);
+            <input id="update-product-button" type="submit" value="Update Product"/>
+        
+            <div id="imageDepiction">
+              <!-- Image depiction or preview will be displayed here -->
+            </div>
 
-        input.addEventListener("change", () => {
-          const files = input.files;
-          console.log(files);
+            <div class="input-div">
+              <p>Drag & drop image here or <span class=browse">Browse</span></p>
+              <input type="file" class="file" accept="image/png, image/jpeg, image/jpg">
+            </div>
 
-          for (let i = 0; i < files.length; i++) {
-            queuedImagesArray.push(files[i]);
-          }
-          displayQueuedImages();
-        });
+        </form>
 
-        inputDiv.addEventListener("drop", (e) => {
-          e.preventDefault();
-          const files = e.dataTransfer.files
-          // console.log(files);
+      </div>
 
-          for (let i = 0; i < files.length; i++){
-            if (!files[i].type.match("image")) continue;
-
-            if (queuedImagesArray.every(image => image.name !== files[i].name))
-              queuedImagesArray.push(files[i]);
-          }
-          displayQueuedImages();
-        });
-
-        function displayQueuedImages() {
-          let images = "";
-          queuedImagesArray.forEach((image, index) => {
-            images += `<div class="image">
-                        <img src="${URL.createObjectURL(image)}" alt="image">
-                        <span onclick="deleteQueuedImage(${index})">&times;</span>
-                       </div>`
-          });
-          imageDepiction.innerHTML = images;
-
-          
-        }
-
-        function deleteQueuedImage(index) {
-          queuedImagesArray.splice(index, 1);
-          displayQueuedImages();
-        }
-
-      </script>
+      <script src="uploadImg.js"></script>
 
       <div id="products-header">
         <h1>Products</h1>

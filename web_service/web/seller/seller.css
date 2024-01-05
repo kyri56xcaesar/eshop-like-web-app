@@ -32,11 +32,11 @@ button {
 
 
 
-#product-form {
+#product-form, #update-product-form {
 
   margin-top: 60px;
   
-  display: grid;
+  display: none;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
   grid-column-gap: 10px;
@@ -54,7 +54,7 @@ button {
   overflow: hidden;
   
 }
-#create-product-tag {
+#create-product-tag, #update-product-tag {
   grid-area: 1 / 1 / 2 / 3;
   margin-left: 0px;
   align-self: center;
@@ -65,34 +65,34 @@ button {
   /* width: 250px; */
 }
 
-#create-product-tag p {
+#create-product-tag p, #update-product-tag p {
     margin-left: 50px;
 }
 
-#product-title-label {
+#product-title-label, #update-product-title-label {
   grid-area: 2 / 1 / 3 / 2;
 }
 
-#product-title {
+#product-title, #update-product-title {
   grid-area: 2 / 2 / 3 / 3;
 }
 
-#product-price-label {
+#product-price-label, #update-product-price-label {
   grid-area: 3 / 1 / 4 / 2;
 }
-#product-price {
+#product-price, #update-product-price {
   grid-area: 3 / 2 / 4 / 3;
 }
 
-#product-quantity-label {
+#product-quantity-label, #update-product-quantity-label {
   grid-area: 4 / 1 / 5 / 2;
 }
 
-#product-quantity {
+#product-quantity, #update-product-quantity {
   grid-area: 4 / 2 / 5 / 3;
 }
 
-#product-title, #product-price, #product-quantity {
+#product-title, #product-price, #product-quantity, #update-product-title, #update-product-price, #update-product-quantity {
   grid-column: 2 / -1;
   /* padding: 4px; */
   box-sizing: border-box;
@@ -128,7 +128,7 @@ button {
 
 
 
-#create-product-button {
+#create-product-button, #update-product-button {
   grid-area: 5 / 1 / 6 / 3;
   /* margin-right: 0px; */
   width: 80%;
@@ -169,20 +169,27 @@ button {
     margin-top: 20px;
     margin: 20px;
     
-    max-width: 400px;
+    max-width: 268px;
 
     display: flex;
     flex-direction: column;
 
-    text-align: right;
+    text-align: center;
 
     
+}
+
+.product h3 {
+  height: 45px;
+  overflow: hidden;
+  
+  margin-bottom: 5px;
 }
 
 #products-header {
     width: 90%;
 
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 

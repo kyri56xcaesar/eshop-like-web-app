@@ -1,8 +1,37 @@
+// Display none all divs
+
+
+// Initial method
+window.addEventListener("load", (event) => {
+    console.log("page is fully loaded");
+
+    const productForm = document.getElementById("product-form");
+    const productsElement = document.getElementById("productsDisplay");
+    const productsHeader = document.getElementById("products-header");
+    const updateProductForm = document.getElementById("update-product-form");
+
+    updateProductForm.style.display = "none";
+    productForm.style.display = "none";
+    productsElement.style.display = "none";
+    productsHeader.style.display = "none";
+
+    loadProducts();
+
+});
+
+
+
+
+
+
+
 // Constants
 const username = localStorage.getItem("username");
 
 // Urls
-const url = "http://localhost:8081/products/username:"+username;
+const url = "http://localhost:8081/products/";
+
+var products = [];
 
 
 // default image
@@ -10,67 +39,30 @@ const imag = " data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEh
 
 console.log("Image length: " + imag.length);
 
-// Display none all divs
-const productForm = document.getElementById("product-form");
-const productsElement = document.getElementById("productsDisplay");
-const productsHeader = document.getElementById("products-header");
-
-productForm.style.display = "none";
-productsElement.style.display = "none";
-productsHeader.style.display = "none";
-
-// Products
-var products = [{
-    "title":"test1",
-    "img":imag,
-    "price":55.34,
-    "quantity":15,
-    "username":"koularos"
-}, {
-    "title":"test1",
-    "img":imag,
-    "price":55.34,
-    "quantity":15,
-    "username":"diego"
-}, {
-    "title":"test1",
-    "img":imag,
-    "price":55.34,
-    "quantity":15,
-    "username":"diego"
-}, {
-    "title":"test1",
-    "img":imag,
-    "price":55.34,
-    "quantity":15,
-    "username":"diego"
-}, {
-    "title":"test1",
-    "img":imag,
-    "price":55.34,
-    "quantity":15,
-    "username":"diego"
-}
-]
 
 
 
-axios.get(url)
+
+
+
+function loadProducts() {
+
+    axios.get(url + "username:"+username)
     .then(function (response) {
         // Handle response
         console.log(response.data);
 
-        const products = response.data;
+        products = response.data;
 
         if (products == null) {
             return;
         }
         //  Display data
-        const productsElement = document.getElementById('productsDisplay');
+        var productsElement = document.getElementById('productsDisplay');
 
         products.forEach(product => {
 
-            console.log("Product retrieved: " + product);
+            // console.log("Product id retrieved: " + product.id);
             const productDiv = document.createElement('div');
             productDiv.classList.add('product');
 
@@ -79,14 +71,14 @@ axios.get(url)
             }
 
             productDiv.innerHTML = `<div id="product">
-                    <h2>${product.title}</h2>
+                    <h3>${product.title}</h3>
                     <img src="${product.img}" alt="${product.title}">
-                    <p>Price: $${product.price}</p>
-                    <p>Quantity: ${product.quantity}</p>
-                    <p>Sold by: ${product.username}</p>
+                    <p id="price">Price: $${product.price}</p>
+                    <p id="quantity">Quantity: ${product.quantity}</p>
+                    <p id="username">Sold by: ${product.username}</p>
 
                     <div class="action-buttons">
-                        <button onclick="updateProduct(this.parentElement.parentElement)">Update</button>
+                        <button onclick="displayUpdateProduct(this.parentElement.parentElement)">Update</button>
                         <button onclick="deleteProduct(this.parentElement.parentElement)">Delete</button>
                     </div>
                 </div>`;
@@ -99,14 +91,21 @@ axios.get(url)
     .catch(function (error) {
         // Handle any errors
         console.error('Error fetching data:', error);
+        return;
     });
+
+}
+
 
 
 // function to display the products
 function displayProducts() {
-    const productForm = document.getElementById("product-form");
-    const productsDisplay = document.getElementById("productsDisplay");
-    const productsHeader = document.getElementById("products-header");
+    var productForm = document.getElementById("product-form");
+    var productsDisplay = document.getElementById("productsDisplay");
+    var productsHeader = document.getElementById("products-header");
+    var updateProductForm = document.getElementById("update-product-form");
+
+    updateProductForm.style.display = "none";
 
     productsHeader.style.display = "block";
     productsHeader.children[0].innerHTML = "Products User: " + username;
@@ -120,29 +119,354 @@ function displayProducts() {
 
 function displayAddProduct() {
 
-    const productForm = document.getElementById("product-form");
-    const productsElement = document.getElementById("productsDisplay");// = JSON.stringify(response.data);
-    const productsHeader = document.getElementById("products-header");
+    let productsElement = document.getElementById("productsDisplay");
+    let productsHeader = document.getElementById("products-header");
+    let updateProductForm = document.getElementById("update-product-form");
 
     productsElement.style.display = "none";
-    productForm.style.display = "grid";
     productsHeader.style.display = "none";
+    updateProductForm.style.display = "none";
+
+    var productForm = document.getElementById("product-form");
+    productForm.style.display = "grid";
 }
+
+var toBeUpdated;
+
+function displayUpdateProduct(element) {
+
+    // console.log(element);
+
+    let productForm = document.getElementById("product-form");
+    let productsElement = document.getElementById("productsDisplay");
+    let productsHeader = document.getElementById("products-header");
+
+    productsElement.style.display = "none";
+    productForm.style.display = "none";
+    productsHeader.style.display = "none";
+
+
+
+
+    // Setup update form
+
+    let updateProductForm = document.getElementById("update-product-form");
+    updateProductForm.style.display = "grid";
+
+    let updateTitle = document.getElementById("update-product-title");
+    // let updateImg = document.getElementById()
+    let updatePrice = document.getElementById("update-product-price");
+    let updateQuantity = document.getElementById("update-product-quantity");
+
+
+    updateTitle.value = element.children[0].textContent;
+    updatePrice.value = parseInt(element.children[2].textContent.split(" ")[1].split("$")[1]);
+    updateQuantity.value = parseInt(element.children[3].textContent.split(" ")[1]);
+
+
+    //
+    // Save info for the specific product
+    let index = products.findIndex(product => product.title === updateTitle.value);
+    // console.log(index);
+
+    toBeUpdated = products[index];
+
+    
+
+}
+
+
+
+
+
+
+
 
 function createProduct(e) {
+    
+    e.preventDefault();
 
+
+    let title_inp = document.getElementById("product-title");
+    let price_inp = document.getElementById("product-price");
+    let quantity_inp = document.getElementById("product-quantity");
+    let img = "";
+
+    let imgDepic = document.getElementById("imageDepiction");
+    let title = title_inp.value;
+    let price = price_inp.value;
+    let quantity = quantity_inp.value;
+
+    if (imgDepic.children.length != 0) {
+        img = document.getElementById("product-image").value;
+    }
+
+    price = parseFloat(price);
+    quantity = parseInt(quantity);
+
+
+
+    if (title == "" || isNumber(title) || !isNumber(price) || !isNumber(quantity) || price >10000) {
+        console.log("Invalid inputs.");
+        title_inp.value = "";
+        price_inp.value = "";
+        quantity_inp.value = 1;
+            
+        return;            
+    } 
+
+    // Send post request.
+    // console.log("Title: " + title);
+    // console.log("Price: " + price);
+    // console.log("Quantity: " + quantity);
+
+    let bodyContent = JSON.stringify({
+        "title":title,
+        "img":img,
+        "price":price,
+        "quantity":quantity,
+        "username":username
+    });
+  
+                 
+    axios.post(url, bodyContent)
+        .then((response) => {
+            //console.log(response);
+            console.log(response.data);
+            // console.log(parseInt(response.data.split(":")[1].split(" ")[0]));
+
+            let inserted_id = parseInt(response.data.split(":")[1].split(" ")[0]);
+        
+            title_inp.value = "";
+            price_inp.value = "";
+            quantity_inp.value = 1;
+
+        
+            // Add the new product to display it
+            var productsElement = document.getElementById('productsDisplay');
+
+
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('product');
+
+            if (img == "") {
+                img = imag;
+            }
+
+            productDiv.innerHTML = `<div id="product">
+                    <h3>${title}</h3>
+                    <img src="${img}" alt="${title}">
+                    <p id="price">Price: $${price}</p>
+                    <p id="quantity">Quantity: ${quantity}</p>
+                    <p id="username">Sold by: ${username}</p>
+
+                <div class="action-buttons">
+                    <button onclick="displayUpdateProduct(this.parentElement.parentElement)">Update</button>
+                    <button onclick="deleteProduct(this.parentElement.parentElement)">Delete</button>
+                </div>
+            </div>`;
+
+            // Append the productDiv to the display element
+            productsElement.appendChild(productDiv);
+            products.push({
+                "id": inserted_id,
+                "title":title,
+                "img":img,
+                "price":price,
+                "quantity":quantity,
+                "username":username
+            });
+
+
+            displayProducts();
+     
+        
+        })
+        .catch(function (error) {
+            // Handle any errors
+            console.error('Error fetching data:', error);
+            return;
+        });
+                 
+  
+    
+
+  
 }
 
+
+
+
+
+
 // Function to update a product
-function updateProduct(element) {
+function updateProduct(event) {
     console.log(`Updating product`);
-    console.log(element);
+
+    event.preventDefault();
+
+
+    //
+    // Retrieve data
+
+    let title_inp = document.getElementById("update-product-title");
+    let price_inp = document.getElementById("update-product-price");
+    let quantity_inp = document.getElementById("update-product-quantity");
+    let img = "";
+
+    let imgDepic = document.getElementById("imageDepiction");
+    let title = title_inp.value;
+    let price = price_inp.value;
+    let quantity = quantity_inp.value;
+
+    if (imgDepic.children.length != 0) {
+        img = document.getElementById("update-product-image").value;
+    }
+
+    price = parseFloat(price);
+    quantity = parseInt(quantity);
+
+
+    console.log(title);
+    console.log(price);
+    console.log(isNumber(price));
+    console.log(quantity);
+    if (title == "" || isNumber(title) || !isNumber(price) || !isNumber(quantity) || price >10000) {
+        console.log("Invalid inputs.");
+        title_inp.value = "";
+        price_inp.value = "";
+        quantity_inp.value = 1;
+            
+        return;            
+    } 
+
+
+
+    //
+    // Update information
+
+    //
+    // Send Request
+    // Send UPDATE request
+    let bodyContent = JSON.stringify({
+        "title":title,
+        "img":img,
+        "price":price,
+        "quantity":quantity,
+        "username":username
+    });
+
+    // console.log(bodyContent);
+            
+    axios.put(url+":"+toBeUpdated.id, bodyContent)
+        .then((response) => {
+            //console.log(response);
+            console.log(response.data);
+            // console.log(parseInt(response.data.split(":")[1].split(" ")[0]));
+
+            // let updated_id_id = parseInt(response.data.split(":")[1].split(" ")[0]);
+                //
+            // Update display
+            let index = products.findIndex(product => product.title === toBeUpdated.title);
+
+            products[index] = Object.assign({}, {"id":toBeUpdated.id}, {"title":title, "img":img, "price":price, "quantity":quantity, "username":username});
+
+            const productElements = document.querySelectorAll('.product');
+            const updatedProductElement = productElements[index];
+
+            if (updatedProductElement) {
+            
+                updatedProductElement.querySelector('h3').textContent = title;
+
+                updatedProductElement.querySelector('img').src = imag;
+
+                updatedProductElement.querySelector('#price').textContent = `Price: $${price}`;
+
+                updatedProductElement.querySelector('#quantity').textContent = `Quantity: ${quantity}`;
+
+                updatedProductElement.querySelector('#username').textContent = `Sold by: ${username}`;
+
+            } else {
+                console.error('Product element not found in the DOM');
+            }
+
+            displayProducts();
+        })
+        .catch(function (error) {
+            // Handle any errors
+            console.error('Error fetching data:', error);
+            return;
+        });
+                 
+  
+
+
 
 }
 
 // Function to delete a product
 function deleteProduct(element) {
     console.log(`Deleting product`);
-    console.log(element);
+    // console.log(element);
+
+    if (confirm("Delete this product?") == false) {
+        console.log("Cancel deletion.");
+        return;   
+    }
+    console.log("Deletion confirmed.");
+
+    // Need to find the product
+    let pr_title = element.children[0].textContent;
+
+    // console.log(pr_title);
+    // console.log(products.find(product => product.title === pr_title));
+
+    // Need the id of the product
+    let id =  products.find(product => product.title === pr_title).id;
+    // console.log(id);
+    
+    // Send DELETE request
+    axios.delete(url+":"+id)
+        .then(function (response) {
+            // Handle response
+            console.log(response.data);
+
+
+        })
+        .catch(function (error) {
+            // Handle errors
+            console.log('Error deleting data:', error);
+            return;
+        });
+    
+    let index = products.findIndex(product => product.title === pr_title);
+
+    removeProductByIndex(index);
+
+    
 }
 
+// helper functions
+
+function removeProductByIndex(index) {
+    const productElements = document.querySelectorAll('.product');
+    const productsElement = document.getElementById('productsDisplay'); 
+
+
+    if (index >= 0 && index < productElements.length) {
+        // Remove the product div at the specified index
+        const removedProduct = productElements[index];
+        // console.log(removedProduct);
+        productsElement.removeChild(removedProduct);
+    } else {
+        console.error('Invalid index:', index);
+    }
+
+
+}
+
+
+
+function isNumber(value) {
+    return typeof value === 'number';
+  }

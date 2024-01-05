@@ -438,6 +438,11 @@ input#submit-login-button:hover, input#submit-register-button:hover {
     display: flex;
     flex-direction: column;
 
+    border-right: #eb1035;
+    border-right-width: thick;
+    
+    
+
     
   }
 
