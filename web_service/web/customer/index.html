@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eshop</title>
+    <link rel="stylesheet" href="../static/style/styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link rel="stylesheet" href="./customer.css"> 
+
+</head>
+<body>  
+
+
+
+    <header id="header"> 
+        
+        <div class="upper-div">
+            <div id="header-selectors">
+
+                <div id="left-space">
+
+                </div>
+                
+                <div id="left-headers"> 
+
+                    <div class="navbar change" id="sidebar-close" onclick="menu_function(this)">
+
+                        <div class="bar1"></div>
+                        <div class="bar2"></div>
+                        <div class="bar3"></div>
+                    </div>
+                    
+                    <!-- <span class="option-select" onclick="Home_Style()"><a href="#">Home</a></span> -->
+                </div>
+
+                <div id="main-title">
+                    <h1>E-SHOP</h1>
+                </div>
+
+                <div id="right-headers">
+                  <span onclick="Profile(event)"><h2 id="user"></h2></span>
+                  <span class="option-select" onclick="Logout(event, user)"><img id="logout" src="../static/assets/shutdown.png" alt="Logout"></span>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <nav class="sidebar close" id="sdbar">
+
+      
+        <a href="#" class="logo">ESHOP</a>
+        <div id="sidebar-top-seperator"><br><br><hr></div>
+        <div class="menu-content">
+          <ul class="menu-items">
+            <div class="menu-title"><h2>Menu</h2></div>
+            <li class="item">
+              <div class="submenu-item">
+                <span onclick="displayProducts()">Products</span>
+              </div>
+
+            </li>
+            <li class="item">
+              <div class="submenu-item">
+                <span>Orders</span>
+                </div>
+
+            </li>
+            
+          </ul>
+
+
+          <li class="item">
+            <div class="submenu-item">
+              <span>Cart</span>
+              </div>
+
+          </li>
+
+         
+        </div>
+        <div class="admin-control">
+            
+          <ul class="menu-items">
+            <div class="menu-title"><h2>Extra</h2></div>
+            <li class="item">
+              <a href="#">Profile</a>
+            </li>
+            <li class="item">
+              <div class="submenu-item">
+                <span>Settings</span>
+              </div>
+
+            </li>
+
+            
+          </ul>
+        </div>
+
+        <div class="qr-code">
+
+        </div>
+    </nav>
+
+
+    <main role="main">
+
+        <div id="productsDisplay">
+
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="customer.js"></script>
+
+        <div id="basket"> 
+
+        </div>
+
+
+    </main>
+
+    <footer id="footer">
+
+        <h5>  ΠΛΗ 513 Project</h5>
+        <div class="lower-div">
+            <div id="lower-footer">
+                
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="../static/js/users.js"></script>
+    <script src="../static/js/styles.js"></script>
+    <script src="../static/js/profile.js"></script>
+
+</body>
+</html>

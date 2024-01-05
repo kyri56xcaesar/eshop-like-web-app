@@ -1,0 +1,46 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+  
+body {
+    font-family: 'Jost', sans-serif;
+    background-color: whitesmoke;
+}
+  
+main {
+    overflow: scroll;
+    flex-direction: column;
+    justify-content: start;
+}
+
+button {
+    padding: 10px;
+    width: 70px;
+  }
+  
+
+#productsDisplay {  
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /* align-content: center; */
+
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1700px;
+    
+}
+  
+#product {
+    flex: 1 1 160px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    margin: 20px;
+    max-width: 300px;
+}

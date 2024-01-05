@@ -10,6 +10,7 @@ function Login_Style() {
     getLoginForm.style.display = "block";
     getRegisterForm.style.display = "none";
 
+    console.log("Login form");
 
 
 }
@@ -31,6 +32,7 @@ function Register_Style() {
     const getRegisterPassword = document.getElementById("register-password");
     getRegisterPassword.setAttribute("placeholder", "Κωδικός");
 
+    console.log("Register form");
 
 }
 
@@ -52,39 +54,22 @@ function Home_Style() {
 
 
  
+
+
+
+const sidebar = document.getElementById("sdbar");
+
 function menu_function(x) {
-    x.classList.toggle("change")
 
-    sidebar.classList.toggle("close");
 
-    const getLeftHeaders = document.getElementById("left-headers");
+  x.classList.toggle("change")
 
-    getLeftHeaders.classList.toggle("start");
+  sidebar.classList.toggle("close");
+
+  const getLeftHeaders = document.getElementById("left-headers");
+
+  getLeftHeaders.classList.toggle("start");
+
+
 
 }
-
-
-
-const sidebar = document.querySelector(".sidebar");
-const menu = document.querySelector(".menu-content");
-const menuItems = document.querySelectorAll(".submenu-item");
-const subMenuTitles = document.querySelectorAll(".submenu .menu-title");
-
-
-menuItems.forEach((item, index) => {
-  item.addEventListener("click", () => {
-    menu.classList.add("submenu-active");
-    item.classList.add("show-submenu");
-    menuItems.forEach((item2, index2) => {
-      if (index !== index2) {
-        item2.classList.remove("show-submenu");
-      }
-    });
-  });
-});
-
-subMenuTitles.forEach((title) => {
-  title.addEventListener("click", () => {
-    menu.classList.remove("submenu-active");
-  });
-});

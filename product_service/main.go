@@ -72,7 +72,7 @@ func main() {
             CREATE TABLE IF NOT EXISTS products (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title VARCHAR(255),
-                img VARCHAR(255),
+                img VARCHAR(1024),
                 price DECIMAL(10, 2),
                 quantity INT,
                 username VARCHAR(255)

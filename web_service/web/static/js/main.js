@@ -1,4 +1,16 @@
+const l_username = localStorage.getItem("username");
+const l_role = localStorage.getItem("role");
+console.log("Current user: " + l_username);
+console.log("Current role: " + l_role)
 
+if (l_username != "" && l_username != null && l_username != undefined && l_role != "" && l_role != null && l_role != undefined) {
+  window.location.href = "http://localhost:5500/web_service/web/"+l_role+"/";
+
+} 
+ 
+  
+ 
+ 
  function decodeJwt(jwtToken) {
     const base64Url = jwtToken.split('.')[1]; // Get the payload part of the JWT
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Replace Base64 URL encoding characters
@@ -11,6 +23,9 @@
 
   const client_secr = "RwCn1KFpU2WRDr5DPIX0Ea1usDK0hIER"
   const admin_secr = "SLsbxyA3OhRGE99k0I8lhKkO8UbKGAU5"
+
+
+  var role = ""
   //Login User
   
   async function Login(e){
@@ -21,8 +36,17 @@
     //get user password
     const getPasswordLogin = document.getElementById("login-password").value;
     
-    console.log(getUsernameLogin)
-    console.log(getPasswordLogin)
+    // console.log(getUsernameLogin)
+    // console.log(getPasswordLogin)
+
+    role = localStorage.getItem("role");
+
+    if (localStorage.getItem("username") == getUsernameLogin && role != "") {
+      console.log("User already logged in.");
+      window.location.href = "http://localhost:5500/web_service/web/"+role+"/"
+
+      return;
+    }
 
     try {
         let headersList = {
@@ -37,22 +61,47 @@
           body: bodyContent,
           headers: headersList
         });
+
+        // console.log(response);
         
         if(response.ok){
             const login = await response.json()
+            // console.log(login)
             const token = login.access_token
             const refresh_token = login.refresh_token
             
             //store in localstorage username, email, role (customer, seller) and refresh_token
             const decodeToken = await decodeJwt(token)
-            console.log("Decoded token: " + decodeToken.roles)
-            console.log(decodeToken.email)
+
             localStorage.setItem("username", decodeToken.preferred_username)
-            localStorage.setItem(decodeToken.preferred_username + "_refreshToken", refresh_token)
-            //localStorage.setItem("email", )
+            localStorage.setItem("refreshToken", refresh_token)
+            localStorage.setItem("email", decodeToken.email)
+            
+
+            
+            if (decodeToken.realm_access.roles.includes("seller")) {
+                console.log("User is a seller");
+                role = "seller";
+
+
+            }
+            else if (decodeToken.realm_access.roles.includes("customer")) {
+                console.log("User is a customer");
+                role = "customer";
+
+            }
+
+            localStorage.setItem("role", role)
+
+
+            setTimeout(()=>{
+              window.location.href = "http://localhost:5500/web_service/web/"+role+"/"
+            }, 500);
             //localStorage.setItem("role", )
             //clear localStorage
             // localStorage.clear()
+
+
         }else{
           const err = await response.json()
           console.log(err) 
@@ -131,11 +180,9 @@
       const registerUser =  await fetch("http://localhost:8080/auth/admin/realms/Eshop_project/users", registerOptions)
       
       if(registerUser.ok){
-        alert('register user is ok')
   
-        setTimeout(()=>{
-          window.location.href = "http://localhost:8079"
-        },2000)
+
+        Login_Style();
         
       }else{
         const err = await registerUser.json()
@@ -155,7 +202,5 @@
   }
   
   
-async function Logout(e) {
 
-}
   
