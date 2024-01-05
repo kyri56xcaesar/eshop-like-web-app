@@ -3,7 +3,7 @@ const username = localStorage.getItem("username");
 
 
 const products_url = "http://localhost:8081/products/";
-const orders_url = "http://localhost:8082/orders/";
+const orders_url = "http://localhost:8082/orders/:"+username;
 
 
 
@@ -21,6 +21,10 @@ const productsElement = document.getElementById("productsDisplay");
 productsElement.style.display = "none";
 const ordersElement = document.getElementById("ordersDisplay");
 ordersElement.style.display = "none";
+const productsHeader = document.getElementById("products-header");
+productsHeader.style.display = "none";
+const ordersHeader = document.getElementById("orders-header");
+ordersHeader.style.display = "none";
 
 
 // fetch data using axios
@@ -32,7 +36,7 @@ axios.get(products_url)
         products = response.data;
 
         if (products == null) {
-            console.log("Empty response.");
+            console.log("Products empty response.");
             return;
         }
 
@@ -56,6 +60,7 @@ axios.get(products_url)
                     <p>Price: $${product.price}</p>
                     <div class="action-buttons">
                         <button onclick="buyProduct(this.parentElement.parentElement)">Buy</button>
+                        <input type="number" id="product-amount" name="product-amount" min="1" max="1000">
                     </div>
                 </div>`;
             
@@ -79,7 +84,7 @@ axios.get(orders_url)
     orders = response.data;
 
     if (orders == null) {
-        console.log("Empty response.");
+        console.log("Orders empty response.");
         return;
     }
 
@@ -122,9 +127,17 @@ function displayProducts() {
 
     const productsDisplay = document.getElementById("productsDisplay");
     const ordersElement = document.getElementById("ordersDisplay");
+    const productsHeader = document.getElementById("products-header");
+    const ordersHeader = document.getElementById("orders-header");
+    const basketHeader = document.getElementById("basket-header");
+    const basketDisplay = document.getElementById("basketDisplay");
 
-
+    basketHeader.style.display = "none";
+    basketDisplay.style.display = "none";
+    productsHeader.style.display = "flex";
+    productsHeader.children[0].innerHTML = "All Products";
     productsDisplay.style.display = "flex";
+    ordersHeader.style.display = "none";
     ordersElement.style.display = "none";
 }
 
@@ -134,10 +147,37 @@ function displayOrders() {
 
     const productsDisplay = document.getElementById("productsDisplay");
     const ordersElement = document.getElementById("ordersDisplay");
+    const productsHeader = document.getElementById("products-header");
+    const ordersHeader = document.getElementById("orders-header");
+    const basketHeader = document.getElementById("basket-header");
+    const basketDisplay = document.getElementById("basketDisplay");
 
-
+    basketHeader.style.display = "none";
+    basketDisplay.style.display = "none";
+    productsHeader.style.display = "none";
     productsDisplay.style.display = "none";
+    ordersHeader.style.display = "block";
+    ordersHeader.children[0].innerHTML = "Orders by: " + username;
     ordersElement.style.display = "flex";
+}
+
+function displayCart() {
+    console.log("Displaying card.");
+
+    const productsDisplay = document.getElementById("productsDisplay");
+    const ordersElement = document.getElementById("ordersDisplay");
+    const productsHeader = document.getElementById("products-header");
+    const ordersHeader = document.getElementById("orders-header");
+    const basketHeader = document.getElementById("basket-header");
+    const basketDisplay = document.getElementById("basketDisplay");
+
+    basketHeader.style.display = "block";
+    basketHeader.children[0].innerHTML = "Your Cart: " + username;
+    basketDisplay.style.display = "flex";
+    productsHeader.style.display = "none";
+    productsDisplay.style.display = "none";
+    ordersHeader.style.display = "none";
+    ordersElement.style.display = "none";
 }
 
 function buyProduct(element) {

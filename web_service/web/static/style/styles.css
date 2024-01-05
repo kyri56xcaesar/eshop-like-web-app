@@ -68,6 +68,11 @@ span a {
   all: unset;
 }
 
+a:hover {
+  cursor: pointer;
+
+}
+
 
 /* Header styles */
 

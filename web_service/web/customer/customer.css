@@ -44,3 +44,70 @@ button {
     margin: 20px;
     max-width: 300px;
 }
+
+#product input {
+    all: initial;
+}
+
+#product div {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+#product div input {
+    width: 50px;
+    margin-left: 40px;
+    border: 3px solid #ddd;
+    border-radius: 5px;
+
+}
+
+#products-header, #orders-header, #basket-header {
+    width: 90%;
+
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    /* border: 5px solid #ddd; */
+
+}
+
+#products-header {
+    flex-direction: column;
+}
+
+#search-fields {
+
+    margin-top: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+#search-fields input {
+    height: 40px;
+    width: 250px;
+}
+
+#search-fields label {
+    margin-right: 20px;
+}
+
+#products-header h1, #products-header h2, #orders-header h1, #orders-header h2, #basket-header h1, #basket-header h2 {
+    text-align: center;
+}
+
+#products-headers h1 {
+    margin-bottom: 40px;
+}
+
