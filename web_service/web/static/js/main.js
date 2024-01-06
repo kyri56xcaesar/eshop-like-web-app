@@ -4,7 +4,7 @@ console.log("Current user: " + l_username);
 console.log("Current role: " + l_role)
 
 if (l_username != "" && l_username != null && l_username != undefined && l_role != "" && l_role != null && l_role != undefined) {
-  window.location.href = "http://localhost:5500/web_service/web/"+l_role+"/";
+  window.location.href = "http://localhost:8079/"+l_role+"/";
 
 } 
  
@@ -43,7 +43,7 @@ if (l_username != "" && l_username != null && l_username != undefined && l_role 
 
     if (localStorage.getItem("username") == getUsernameLogin && role != "") {
       console.log("User already logged in.");
-      window.location.href = "http://localhost:5500/web_service/web/"+role+"/"
+      window.location.href = "http://localhost:8079/"+role+"/"
 
       return;
     }
@@ -95,7 +95,7 @@ if (l_username != "" && l_username != null && l_username != undefined && l_role 
 
 
             setTimeout(()=>{
-              window.location.href = "http://localhost:5500/web_service/web/"+role+"/"
+              window.location.href = "http://localhost:8079/"+role+"/"
             }, 500);
             //localStorage.setItem("role", )
             //clear localStorage

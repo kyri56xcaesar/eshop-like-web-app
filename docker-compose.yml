@@ -128,9 +128,7 @@ services:
         - postgres
   
   order_service:
-    build:
-      context: ./order_service
-      dockerfile: Dockerfile
+    image: kyri56xcaesar/nefos_project_order_service:1.0
     container_name: order_service
     restart: always
     ports:
@@ -145,9 +143,7 @@ services:
       - orders_db
 
   product_service:
-    build:
-      context: ./product_service
-      dockerfile: Dockerfile
+    image: kyri56xcaesar/nefos_project_product_service:1.0
     container_name: product_service
     restart: always
     ports:
@@ -157,6 +153,15 @@ services:
     depends_on:
       - kafka
       - products_db
+
+
+  web-app:
+    image: kyri56xcaesar/web-app:latest
+    container_name: web-app
+    restart: always
+    ports:
+      - "8079:80"
+
 
 networks:
   default:

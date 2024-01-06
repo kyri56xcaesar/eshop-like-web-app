@@ -7,7 +7,7 @@ console.log("Current user: " + user);
 
 
 if (user == "" || user == null || user == undefined) {
-  window.location.href = "http://localhost:5500/web_service/web/error.html";
+  window.location.href = "http://localhost:8079/error.html";
 
 } else {
   document.getElementById("user").innerHTML = user;
@@ -42,7 +42,7 @@ async function Logout(e, user) {
         localStorage.clear()
 
         setTimeout(()=>{
-          window.location.href = "http://localhost:5500/web_service/web/"
+          window.location.href = "http://localhost:8079/"
         }, 500);
 
 
