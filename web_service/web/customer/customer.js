@@ -34,6 +34,8 @@ window.addEventListener("load", (event) => {
     loadProducts();
 
 
+
+
 });
 
 // default image
@@ -97,8 +99,8 @@ function loadProducts() {
                     </div>
                 </div>`;
 
-                // Append to the element to the display element
-                productsElement.appendChild(productDiv);
+            // Append to the element to the display element
+            productsElement.appendChild(productDiv);
 
 
                 // Also setup cart dictionary.
@@ -110,6 +112,33 @@ function loadProducts() {
                     "quantity":0, // this quantity resembles amount user wants to buy
                     "username":product.username
                 });
+            
+                // Handle search products
+
+            const searchInput = document.getElementById("search-product");
+
+            let pr = [];
+
+            pr = Array.from(document.getElementById("productsDisplay").children);
+
+            
+
+            searchInput.addEventListener("input", (e) => {
+                const value = e.target.value;
+
+                pr.forEach((product, index) => {
+                    if (index != 0) {
+                        const isVisible = product.children[0].children[0].textContent.includes(value);
+                        product.classList.toggle("hide", !isVisible);
+                    }
+
+                });
+
+                // console.log(value);
+            });
+
+
+            
         });
     })
     .catch(function (error) {

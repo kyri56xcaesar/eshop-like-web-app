@@ -390,3 +390,15 @@ button {
     
     height: 30%;
 }
+
+
+/* Search bar */
+.search-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.hide {
+    display: none;
+}
