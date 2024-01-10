@@ -258,9 +258,16 @@ button {
     text-align: center;
 }
 
+#search-fields label h4 {
+    width: fit-content;
+    width: 140px;
+}
+
 #search-fields input {
     height: 40px;
     width: 250px;
+    min-width: 250px;
+    max-width: 250px;
 }
 
 #search-fields label {
