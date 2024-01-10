@@ -34,6 +34,157 @@ button {
     max-width: 1700px;
     
 }
+
+
+#basketDisplay {
+    display: none;
+    flex-direction: column;
+
+    width: 65%;
+    height: 100%;
+
+    margin-bottom: 30px;
+
+}
+
+#basket-info {
+    display: flex;
+    flex-direction: row;
+
+    border: solid 3px gray;
+    border-radius: 10px;
+    outline: 0;
+    
+    padding: 5px;
+    height: 100%;
+}
+
+#basket-customer-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+
+    border: solid 3px gray;
+    border-radius: 3px;
+    outline: 0;
+
+    padding: 5px;
+
+
+    height: 100%;
+}
+
+#basket-customer-info-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border: solid 3px gray;
+    border-radius: 3px;
+    outline: 0;
+
+    padding: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height: 70%;
+}
+
+#place-order {
+    height: 30%;
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+
+    padding: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: solid 3px gray;
+    border-radius: 3px;
+    outline: 0;
+}
+
+#place-order input {
+    border: solid 3px gray;
+    border-radius: 3px;
+    outline: 0;
+
+    width: 130px;
+    font-size: 15px;
+    margin: initial;
+    padding: initial;
+}
+
+.scrollable-container {
+    margin: 4px, 4px;
+    padding: 4px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#basket-products {
+    height: 100%;
+    width: 100%;
+
+    border: solid 3px gray;
+    border-radius: 3px;
+    outline: 0;
+
+    /* margin: 10px; */
+    padding: 10px;
+    margin-left: 5px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    
+
+}
+
+#basket-product, #order-product {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    border: solid 3px gray;
+}
+
+#basket-product-headers, #order-product-headers {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#basket-product-headers h4, #order-product-headers h4 {
+    text-align: start;
+    width: 50%;
+
+    padding-left: auto;
+    padding-right: auto;
+}
+
+#basket-product-headers span {
+    text-align: end;
+    width: 50%;
+}
+
+#basket-product-footer, #order-product-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* text-align: center; */
+}
+
+#basket-product-amount {
+    width: 50%;
+}
+
+#basket-product-price {
+    width: 50%;
+}
   
 #product {
     flex: 1 1 160px;
@@ -63,24 +214,34 @@ button {
     border-radius: 5px;
 
 }
-
-#products-header, #orders-header, #basket-header {
+#products-header {
     width: 90%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+
+    margin-top: 25px;
+    margin-bottom: 25px;
+
+    /* border: 5px solid #ddd; */
+}
+
+#orders-header, #basket-header {
 
     display: flex;
     justify-content: center;
     /* align-items: center; */
 
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 
     /* border: 5px solid #ddd; */
 
 }
 
-#products-header {
-    flex-direction: column;
-}
+
 
 #search-fields {
 
@@ -111,3 +272,118 @@ button {
     margin-bottom: 40px;
 }
 
+
+
+#orders-header {
+    width: 90%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+
+    margin-top: 25px;
+    margin-bottom: 25px;
+
+    /* border: 5px solid #ddd; */
+}
+
+
+#ordersDisplay {
+
+    display: none;
+    flex-direction: column;
+    
+    
+
+
+}
+
+
+
+
+.order {
+    width: 100%;
+    margin: 20px;
+
+    border: 3px solid gray;
+
+    height: 200px;
+
+}
+
+#order-info {
+    display: flex;
+    flex-direction: row;
+
+
+    
+    padding: 5px;
+    height: 100%;
+}
+
+#order-customer-info {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+
+    border: solid 3px gray;
+    border-radius: 3px;
+    outline: 0;
+
+    padding: 5px;
+
+    width: 20%;
+    height: 100%;
+}
+
+#order-product {
+    margin: 5px;
+}
+
+.order-products {
+    height: 100%;
+    width: 100%;
+
+    border: solid 3px gray;
+    border-radius: 3px;
+    outline: 0;
+
+    /* margin: 10px; */
+    padding: 10px;
+    margin-left: 5px;
+
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-evenly; */
+
+    max-width: 1050px;
+    
+
+}
+
+#order-customer-info-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border: solid 3px gray;
+    border-radius: 3px;
+    outline: 0;
+
+    padding: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height: 70%;
+}
+
+
+
+#order-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    height: 30%;
+}

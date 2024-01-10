@@ -1,10 +1,15 @@
+const client_secr = "HBif856y3ZZcB8NN2KQXqLZJkgu70D7L";
+const admin_secr = "kJ3UhrtmNrURm8rX0cjS4fMTM7gXfLug";
+const host='localhost';
+
+
 const l_username = localStorage.getItem("username");
 const l_role = localStorage.getItem("role");
 console.log("Current user: " + l_username);
 console.log("Current role: " + l_role)
 
 if (l_username != "" && l_username != null && l_username != undefined && l_role != "" && l_role != null && l_role != undefined) {
-  window.location.href = "http://localhost:8079/"+l_role+"/";
+  window.location.href = "http://"+host+":8079/"+l_role+"/";
 
 } 
  
@@ -21,8 +26,7 @@ if (l_username != "" && l_username != null && l_username != undefined && l_role 
     return JSON.parse(jsonPayload);
   }
 
-  const client_secr = "RwCn1KFpU2WRDr5DPIX0Ea1usDK0hIER"
-  const admin_secr = "SLsbxyA3OhRGE99k0I8lhKkO8UbKGAU5"
+  
 
 
   var role = ""
@@ -43,24 +47,34 @@ if (l_username != "" && l_username != null && l_username != undefined && l_role 
 
     if (localStorage.getItem("username") == getUsernameLogin && role != "") {
       console.log("User already logged in.");
-      window.location.href = "http://localhost:8079/"+role+"/"
+      window.location.href = "http://"+host+":8079/"+role+"/"
 
       return;
     }
 
     try {
-        let headersList = {
-            "Accept": "*/*",
-            "Content-Type": "application/x-www-form-urlencoded"
-           }
-           
-        let bodyContent = "username="+getUsernameLogin+"&password="+getPasswordLogin+"&client_id=frontend_app&grant_type=password&client_secret="+client_secr;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+        myHeaders.append("Accept", "*/*");
+
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("username", getUsernameLogin);
+        urlencoded.append("password", getPasswordLogin);
+        urlencoded.append("client_id", "frontend_app");
+        urlencoded.append("grant_type", "password");
+        urlencoded.append("client_secret", client_secr);
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: urlencoded,
+          redirect: 'follow'
+        };
+
+        let response = await fetch("http://"+host+":8080/auth/realms/Eshop_project/protocol/openid-connect/token", requestOptions);
         
-        let response = await fetch("http://localhost:8080/auth/realms/Eshop_project/protocol/openid-connect/token", { 
-          method: "POST",
-          body: bodyContent,
-          headers: headersList
-        });
+        
 
         // console.log(response);
         
@@ -95,7 +109,7 @@ if (l_username != "" && l_username != null && l_username != undefined && l_role 
 
 
             setTimeout(()=>{
-              window.location.href = "http://localhost:8079/"+role+"/"
+              window.location.href = "http://"+host+":8079/"+role+"/"
             }, 500);
             //localStorage.setItem("role", )
             //clear localStorage
@@ -127,6 +141,7 @@ if (l_username != "" && l_username != null && l_username != undefined && l_role 
     try {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+      myHeaders.append("Accept", "*/*");
   
       var urlencoded = new URLSearchParams();
       urlencoded.append("grant_type", "client_credentials");
@@ -141,13 +156,14 @@ if (l_username != "" && l_username != null && l_username != undefined && l_role 
       };
   
       //get admin access token
-      const first_response = await fetch("http://localhost:8080/auth/realms/master/protocol/openid-connect/token", requestOptions)
+      const first_response = await fetch("http://"+host+":8080/auth/realms/master/protocol/openid-connect/token", requestOptions)
         
       if(first_response.ok){
         const adminAccessToken = await first_response.json();
         const token = adminAccessToken.access_token
   
         var myHeaders = new Headers();
+        myHeaders.append("Accept", "*/*");
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer "+token);
   
@@ -177,7 +193,7 @@ if (l_username != "" && l_username != null && l_username != undefined && l_role 
         redirect: 'follow'
       };
   
-      const registerUser =  await fetch("http://localhost:8080/auth/admin/realms/Eshop_project/users", registerOptions)
+      const registerUser =  await fetch("http://"+host+":8080/auth/admin/realms/Eshop_project/users", registerOptions)
       
       if(registerUser.ok){
   

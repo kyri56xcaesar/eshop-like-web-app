@@ -33,7 +33,7 @@ var Db *sql.DB
 
 func main() {
 
-	time.Sleep(time.Second * 15)
+	time.Sleep(time.Second * 30)
 	fmt.Print("Welcome to the Product Service.\n")
 
 	godotenv.Load(".env")

@@ -106,37 +106,55 @@
 
     <main role="main">
 
-      <div id="products-header">
-        <h1>Products</h1>
-        <br> <br>
-        <hr>
-        <div id="search-fields">
 
-          <input id="search-product" type="text" name="search-input" placeholder="Find product">
-          <label for="search-by"><h4>Search by:</h4></label>
-          <select name="search-by" id="search-by">
-            <option value="username">Username</option>
-            <option value="title">Title</option>
+      <div id="productsDisplay">      
+        <div id="products-header">
+          <h1>Products</h1>
+          <div id="search-fields">
 
-          </select> 
+            <input id="search-product" type="text" name="search-input" placeholder="Find product">
+            <label for="search-by"><h4>Search by:</h4></label>
+            <select name="search-by" id="search-by">
+              <option value="username">Username</option>
+              <option value="title">Title</option>
+            </select> 
+          </div>
+        
         </div>
-        <br>
       </div>
-      <div id="productsDisplay"></div>
 
-      <div id="orders-header">
-        <h1>Orders</h1>
-        <br> <br>
-        <hr>
-      </div>
-      <div id="ordersDisplay"></div>
 
-      <div id="basket-header">
-        <h1></h1>
-        <br> <br>
-        <hr>
+      <div id="ordersDisplay">
+        <div id="orders-header">
+          <h1>Orders</h1>
+        </div>
+        <!-- <div id="orders">
+          
+        </div> -->
       </div>
-      <div id="basketDisplay"></div>
+
+      
+      <div id="basketDisplay">
+        <div id="basket-header">
+          <h1></h1>
+        </div>
+        <div id="basket-info">
+          <div id="basket-customer-info">
+            
+            <div id="basket-customer-info-text">
+              <span></span>
+              <span></span>
+            </div>
+
+            <div id="place-order">
+              <input id="place-order-button" onclick='createOrder(event)' type="submit" name="place-order" value="Place Order">
+            </div>
+          </div>
+          <div id="basket-products" class="scrollable-container">
+                    
+          </div>
+        </div>      
+      </div>
       
       
       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

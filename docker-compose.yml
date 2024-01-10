@@ -75,8 +75,8 @@ services:
       - ./data/orders-db:/var/lib/mysql
     networks:
       - orders
-    extra_hosts:
-      - "host.docker.internal:172.17.0.1"
+    # extra_hosts:
+    #   - "host.docker.internal:172.17.0.1"
 
 
 
@@ -92,10 +92,10 @@ services:
       MYSQL_ROOT_PASSWORD: admin
     ports:
       - '3310:3306'
-    expose:
-      # Opens port 3306 on the container
-      - '3310'
-      # Where our data will be persisted
+    # expose:
+    #   # Opens port 3306 on the container
+    #   - '3310'
+    #   # Where our data will be persisted
     volumes:
       - ./data/products-db:/var/lib/mysql
     extra_hosts:
@@ -128,13 +128,21 @@ services:
         - postgres
   
   order_service:
-    image: kyri56xcaesar/nefos_project_order_service:1.0
+    #image: kyri56xcaesar/nefos_project_order_service:1.0
+    build:
+      context: ./order_service
+      dockerfile: Dockerfile
     container_name: order_service
     restart: always
     ports:
       - "${ORDER_SERVICE_PORT}:${ORDER_SERVICE_PORT}"
     environment:
       PORT: "${ORDER_SERVICE_PORT}"
+      HOST: "${ORDER_HOST}"
+      MYSQL_DATABASE: "${ORDER_MYSQL_DATABASE}"
+      MYSQL_USER: "${ORDER_MYSQL_USER}"
+      MYSQL_PASSWORD: "${ORDER_MYSQL_PASSWORD}"
+      DB_PORT: "${ORDER_DB_PORT}"
     networks:
       - orders
       - default
@@ -156,7 +164,9 @@ services:
 
 
   web-app:
-    image: kyri56xcaesar/web-app:latest
+    build: 
+      context: ./web_service
+      dockerfile: Dockerfile
     container_name: web-app
     restart: always
     ports:

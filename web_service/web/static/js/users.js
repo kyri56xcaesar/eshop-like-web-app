@@ -1,4 +1,5 @@
-const client_secr = "RwCn1KFpU2WRDr5DPIX0Ea1usDK0hIER"
+const client_secr = "HBif856y3ZZcB8NN2KQXqLZJkgu70D7L";
+const host="localhost";
 
 
 const user = localStorage.getItem("username");
@@ -7,7 +8,7 @@ console.log("Current user: " + user);
 
 
 if (user == "" || user == null || user == undefined) {
-  window.location.href = "http://localhost:8079/error.html";
+  window.location.href = "http://"+host+":8079/error.html";
 
 } else {
   document.getElementById("user").innerHTML = user;
@@ -28,7 +29,7 @@ async function Logout(e, user) {
     // console.log(refresh_token);
     let bodyContent = "refresh_token="+refresh_token+"&client_id=frontend_app&client_secret="+client_secr;
     
-    let response = await fetch("http://localhost:8080/auth/realms/Eshop_project/protocol/openid-connect/logout", { 
+    let response = await fetch("http://"+host+":8080/auth/realms/Eshop_project/protocol/openid-connect/logout", { 
       method: "POST",
       body: bodyContent,
       headers: headersList
@@ -42,7 +43,7 @@ async function Logout(e, user) {
         localStorage.clear()
 
         setTimeout(()=>{
-          window.location.href = "http://localhost:8079/"
+          window.location.href = "http://"+host+":8079/"
         }, 500);
 
 

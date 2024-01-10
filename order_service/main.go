@@ -39,21 +39,26 @@ var Db *sql.DB
 
 func main() {
 
-	time.Sleep(time.Second * 15)
+	time.Sleep(time.Second * 30)
 	fmt.Print("Welcome to the Order Service.\n")
 
 	// Load environment variables using godotenv
 	godotenv.Load(".env")
 
 	// Setup database connection
-	// host := os.Getenv("HOST")
+	host := os.Getenv("HOST")
 	dbport := os.Getenv("DB_PORT")
+
+	fmt.Printf("DBPORT %s\n", dbport)
+	fmt.Println("aslkghaslkgjhsalkglkjsa")
+	addr := fmt.Sprintf("%s:%s", host, dbport)
+	fmt.Printf("Address %s\n", addr)
 
 	cfg := mysql.Config{
 		User:                 os.Getenv("MYSQL_USER"),
 		Passwd:               os.Getenv("MYSQL_PASSWORD"),
 		Net:                  "tcp",
-		Addr:                 fmt.Sprintf("%s:%s", os.Getenv("HOST"), dbport),
+		Addr:                 host,
 		DBName:               os.Getenv("MYSQL_DATABASE"),
 		AllowNativePasswords: true,
 	}

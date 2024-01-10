@@ -50,9 +50,11 @@ function loadProducts() {
     axios.get(url + "username:"+username)
     .then(function (response) {
         // Handle response
-        console.log(response.data);
+        // console.log(response.data);
 
-        products = response.data;
+        if (response.data != null) {
+            products = response.data;
+        }
 
         if (products == null) {
             return;
@@ -201,6 +203,36 @@ function createProduct(e) {
         img = document.getElementById("product-image").value;
     }
 
+    if (title == "") {
+        title_inp.style.borderColor = "red";
+        setTimeout(()=>{
+            title_inp.style.borderColor = "";
+
+        }, 4000);
+
+        return;
+    }
+
+    if (price == "") {
+        price_inp.style.borderColor = "red";
+        setTimeout(()=>{
+            price_inp.style.borderColor = "";
+
+        }, 2000);
+
+        return;
+    }
+
+    if (quantity == "") {
+        quantity_inp.style.borderColor = "red";
+        setTimeout(()=>{
+            quantity_inp.style.borderColor = "";
+
+        }, 2000);
+
+        return;
+    }
+
     price = parseFloat(price);
     quantity = parseInt(quantity);
 
@@ -323,6 +355,36 @@ function updateProduct(event) {
         img = document.getElementById("update-product-image").value;
     }
 
+    if (title == "") {
+        title_inp.style.borderColor = "red";
+        setTimeout(()=>{
+            title_inp.style.borderColor = "";
+
+        }, 4000);
+
+        return;
+    }
+
+    if (price == "") {
+        price_inp.style.borderColor = "red";
+        setTimeout(()=>{
+            price_inp.style.borderColor = "";
+
+        }, 2000);
+
+        return;
+    }
+
+    if (quantity == "") {
+        quantity_inp.style.borderColor = "red";
+        setTimeout(()=>{
+            quantity_inp.style.borderColor = "";
+
+        }, 2000);
+
+        return;
+    }
+
     price = parseFloat(price);
     quantity = parseInt(quantity);
 
@@ -416,7 +478,7 @@ function deleteProduct(element) {
     console.log("Deletion confirmed.");
 
     // Need to find the product
-    let pr_title = element.children[0].textContent;
+    let pr_title = element.parentElement.parentElement.children[0].textContent;
 
     // console.log(pr_title);
     // console.log(products.find(product => product.title === pr_title));
@@ -438,35 +500,19 @@ function deleteProduct(element) {
             console.log('Error deleting data:', error);
             return;
         });
+        
     
-    let index = products.findIndex(product => product.title === pr_title);
+    
+    let productsDisplay = element.parentNode.parentNode.parentNode;
 
-    removeProductByIndex(index);
+    productsDisplay.removeChild(element.parentNode.parentNode);
 
     
 }
 
 // helper functions
 
-function removeProductByIndex(index) {
-    const productElements = document.querySelectorAll('.product');
-    const productsElement = document.getElementById('productsDisplay'); 
-
-
-    if (index >= 0 && index < productElements.length) {
-        // Remove the product div at the specified index
-        const removedProduct = productElements[index];
-        // console.log(removedProduct);
-        productsElement.removeChild(removedProduct);
-    } else {
-        console.error('Invalid index:', index);
-    }
-
-
-}
-
-
-
 function isNumber(value) {
     return typeof value === 'number';
-  }
+}
+
