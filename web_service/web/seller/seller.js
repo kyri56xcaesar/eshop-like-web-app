@@ -294,7 +294,7 @@ function createProduct(e) {
 
                 <div class="action-buttons">
                     <button onclick="displayUpdateProduct(this.parentElement.parentElement)">Update</button>
-                    <button onclick="deleteProduct(this)">Delete</button>
+                    <button onclick="deleteProduct(this.parentElement.parentElement)">Delete</button>
                 </div>
             </div>`;
 
@@ -478,7 +478,7 @@ function deleteProduct(element) {
     console.log("Deletion confirmed.");
 
     // Need to find the product
-    let pr_title = element.parentElement.parentElement.children[0].textContent;
+    let pr_title = element.children[0].textContent;
 
     // console.log(pr_title);
     // console.log(products.find(product => product.title === pr_title));
@@ -502,10 +502,12 @@ function deleteProduct(element) {
         });
         
     
-    
-    let productsDisplay = element.parentNode.parentNode.parentNode;
+    const  prdctsDisplay = document.getElementById("productsDisplay");
 
-    productsDisplay.removeChild(element.parentNode.parentNode);
+    let index = Array.from(prdctsDisplay.children).findIndex(product_div => product_div.children[0].children[0].textContent === pr_title);
+
+    removeProductByIndex(index);
+
 
     
 }
@@ -514,5 +516,22 @@ function deleteProduct(element) {
 
 function isNumber(value) {
     return typeof value === 'number';
+}
+
+function removeProductByIndex(index) {
+    const productElements = document.querySelectorAll('.product');
+    const productsElement = document.getElementById('productsDisplay'); 
+
+
+    if (index >= 0 && index < productElements.length) {
+        // Remove the product div at the specified index
+        const removedProduct = productElements[index];
+        // console.log(removedProduct);
+        productsElement.removeChild(removedProduct);
+    } else {
+        console.error('Invalid index:', index);
+    }
+
+
 }
 
