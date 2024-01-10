@@ -156,11 +156,14 @@ button {
     display: flex;
     flex-direction: row;
     width: 100%;
+    justify-content: space-between;
 }
 
-#basket-product-headers h4, #order-product-headers h4 {
+#basket-product-headers h5, #order-product-headers h5 {
     text-align: start;
-    width: 50%;
+    width: auto;
+
+    overflow-x: hidden;
 
     padding-left: auto;
     padding-right: auto;
@@ -168,7 +171,7 @@ button {
 
 #basket-product-headers span {
     text-align: end;
-    width: 50%;
+    width: auto;
 }
 
 #basket-product-footer, #order-product-footer {

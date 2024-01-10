@@ -26,10 +26,11 @@ window.addEventListener("load", (event) => {
 
 
 // Constants
+const host = "localhost";
 const username = localStorage.getItem("username");
 
 // Urls
-const url = "http://localhost:8081/products/";
+const url = "http://"+host+":8081/products/";
 
 var products = [];
 

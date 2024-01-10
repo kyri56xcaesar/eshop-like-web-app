@@ -174,16 +174,18 @@ function loadOrders() {
                 const productDiv = document.createElement('div');
                 productDiv.classList.add('order-product');
 
-                if (product.img == "") {
-                    product.img = imag;
+                let im = product.img;
+
+                if (im == "") {
+                    im = imag;
                 }
 
                 productDiv.innerHTML = `
                 <div id="order-product">                
                     <div id="order-product-headers">
-                        <h4>Title: ${product.title}</h4>
+                        <h5>Title: ${product.title}</h5>
                     </div>
-                    <img src="${product.img}" alt="${product.title}">
+                    <img src="${im}" alt="${product.title}">
                     <div id="order-product-footer">
                         <p id="order-product-amount">Amount: ${product.quantity}</p>
                         <p id="order-product-price">Price: ${product.price}$</p>

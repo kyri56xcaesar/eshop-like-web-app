@@ -95,7 +95,7 @@ function updateCart() {
             productDiv.innerHTML = `
             <div id="basket-product">                
                 <div id="basket-product-headers">
-                    <h4>${product.title}</h4>
+                    <h5>${product.title}</h5>
                     <span class="delete-button" onclick="removeFromBasket(this)">&#10006;</span>
                 </div>
                 <img src="${product.img}" alt="${product.title}">
@@ -172,7 +172,7 @@ function createOrder(e) {
 
     // Get data.
     const basket_customer_info = document.getElementById("basket-customer-info-text");
-    const username = basket_customer_info.children[0].textContent;
+    const username = basket_customer_info.children[0].textContent.split(":")[1];
     const total_price = parseFloat(basket_customer_info.children[1].textContent.split(" ")[1].split("$")[0]);
 
     let my_cart = [];
@@ -180,6 +180,8 @@ function createOrder(e) {
     cart.forEach(product => {
 
         if (product.quantity != 0) {
+
+            product.img = "";
             
             my_cart.push(product);
         }
@@ -202,6 +204,8 @@ function createOrder(e) {
 
         return;
     }
+
+
 
     // Setup order
     let order = {
@@ -272,7 +276,7 @@ function createOrder(e) {
         productDiv.innerHTML = `
         <div id="order-product">                
             <div id="order-product-headers">
-                <h4>Title: ${product.title}</h4>
+                <h5>Title: ${product.title}</h5>
             </div>
             <img src="${product.img}" alt="${product.title}">
             <div id="order-product-footer">
