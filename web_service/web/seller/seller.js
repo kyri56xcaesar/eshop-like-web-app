@@ -294,7 +294,7 @@ function createProduct(e) {
 
                 <div class="action-buttons">
                     <button onclick="displayUpdateProduct(this.parentElement.parentElement)">Update</button>
-                    <button onclick="deleteProduct(this.parentElement.parentElement)">Delete</button>
+                    <button onclick="deleteProduct(this)">Delete</button>
                 </div>
             </div>`;
 

@@ -3,7 +3,7 @@ const username = localStorage.getItem("username");
 const host = "localhost";
 
 const products_url = "http://"+host+":8081/products/";
-const orders_url = "http://"+host+":8082/orders/:"+username;
+const orders_url = "http://"+host+":8082/orders";
 
 // Initial method
 window.addEventListener("load", (event) => {
@@ -122,7 +122,7 @@ function loadProducts() {
 
 function loadOrders() {
     // fetch data using axios
-    axios.get(orders_url)
+    axios.get(orders_url+"/:"+username)
     .then(function (response) {
         // Handle response
         console.log(response.data);
