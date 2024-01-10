@@ -200,9 +200,9 @@ function createProduct(e) {
     let price = price_inp.value;
     let quantity = quantity_inp.value;
 
-    if (imgDepic.children.length != 0) {
-        img = document.getElementById("product-image").value;
-    }
+    // if (imgDepic.children.length != 0) {
+    //     img = document.getElementById("product-image").value;
+    // }
 
     if (title == "") {
         title_inp.style.borderColor = "red";
@@ -352,9 +352,9 @@ function updateProduct(event) {
     let price = price_inp.value;
     let quantity = quantity_inp.value;
 
-    if (imgDepic.children.length != 0) {
-        img = document.getElementById("update-product-image").value;
-    }
+    // if (imgDepic.children.length != 0) {
+    //     img = document.getElementById("update-product-image").value;
+    // }
 
     if (title == "") {
         title_inp.style.borderColor = "red";
