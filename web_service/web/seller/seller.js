@@ -189,7 +189,7 @@ function createProduct(e) {
     
     e.preventDefault();
 
-
+     
     let title_inp = document.getElementById("product-title");
     let price_inp = document.getElementById("product-price");
     let quantity_inp = document.getElementById("product-quantity");
